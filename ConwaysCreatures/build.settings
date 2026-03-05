@@ -20,7 +20,8 @@ settings =
 	{
 		usesPermissions =
 		{
-			"android.permission.INTERNET",
+			"android.permission.CAMERA",
+            "android.permission.INTERNET"
 		},
 	},
 
@@ -54,4 +55,18 @@ settings =
 		all = { "Icon.png", "Icon-*dpi.png", "Images.xcassets", },
 		android = { "LaunchScreen.storyboardc", },
 	},
+
+	content =
+    {
+        width = 1080,
+        height = 1920,
+        scale = "letterbox",
+        fps = 60,
+
+        imageSuffix =
+        {
+            ["@2x"] = 2,
+            ["@3x"] = 3,
+        }
+    }
 }

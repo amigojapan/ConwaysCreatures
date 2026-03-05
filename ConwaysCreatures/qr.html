@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Scanner</title>
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+#mainMenu {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+#battleField {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+#result {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    padding: 20px;
+    font-size: 22px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+.divInner {
+    display: inline-block; /* Essential: allows side-by-side + box styling */
+    width: 10px; 
+    height: 10px;
+    border: 2px solid #ccc; 
+    vertical-align: top;   /* Prevents weird spacing issues with text */
+    box-sizing: border-box; /* Highly recommended: keeps the 2px border INSIDE the 20px width */
+    font-size: 8px;        /* Smaller font so the coordinates fit in 20px */
+}
+
+/* Ensure the container is wide enough for 5 items (5 * 20px) */
+.container {
+    width: 1000px;
+    line-height: 0;        /* Removes extra vertical spacing between rows */
+}
+</style>
+</head>
+<body>
+<div id="mainMenu">
+    <button onclick="scanQR()">カード追加 Add Card Adicionar tarjeta</button>
+    <button onclick="initBattle()">バットルスタート Battle Start Comenzar Batalla</button>
+    <div id="cards"></div>
+</div>
+<div id="battleField"></div>
+<video id="video" autoplay playsinline></video>
+<div id="result">Starting camera...</div>
+
+<script>
+var cardCount=0
+const cards = document.getElementById("cards");
+const battleFieldDiv = document.getElementById("battleField");
+const mainMenuDIV = document.getElementById("mainMenu");
+function initBattle() {
+    //initfield
+    mainMenuDIV.style.display = "none";
+    battleFieldDiv.style.display = "block";
+    var width = 40;
+    var height = 60;
+    var xc, yc;
+    var htmlOutput = '<div class="container">';
+
+    // Corrected loop conditions
+    for (yc = 0; yc < height; yc++) {
+        for (xc = 0; xc < width; xc++) {
+            htmlOutput += "<div class='divInner' id='x" + xc + ",y" + yc + "'>" + xc + "," + yc + "</div>";
+        }
+        htmlOutput += "<br>"; // Use <br> for line breaks, consider using CSS for layout
+    }
+
+    htmlOutput += '</div>';
+    battleFieldDiv.innerHTML = htmlOutput; // Assign the full string once
+   //resultDiv.style.display = "none";
+    //video.style.display = "none";
+    
+    //placeConwaysCreatures();
+
+}
+function placeConwaysCreatures() {
+    const cards = document.getElementById("cards");
+    var cardName=barcodes[0].rawValue;
+    cards.innerHTML=cards.innerHTML+"<div id='"+cardCount+"'>ID:"+cardCount+"Name:"+cardName+"<img src='images/cards/"+cardName+".png' height=100 width=70></div>"
+    cardCount++;
+    //resultDiv.style.display = "none";
+    //video.style.display = "none";
+    mainMenuDIV.style.display = "block";
+    
+}
+function scanQR() {
+    const mainMenuDIV = document.getElementById("mainMenu");
+    const video = document.getElementById("video");
+    const resultDiv = document.getElementById("result");
+    mainMenuDIV.style.display = "none";
+    if (!("BarcodeDetector" in window)) {
+        //resultDiv.innerText = "BarcodeDetector not supported.";
+        resultDiv.innerText = "PLEASE RUNT HIS ON AN MODERN ANDROID DEVICE.";
+    } else {
+
+        const barcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });
+
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment" }
+        })
+        .then(stream => {
+            video.srcObject = stream;
+
+            video.onloadedmetadata = () => {
+                video.play();
+                resultDiv.innerText = "Scanning...";
+                requestAnimationFrame(scanFrame);
+            };
+        })
+        .catch(err => {
+            resultDiv.innerText = "Camera error: " + err.message;
+        });
+
+        function scanFrame() {
+
+            if (video.readyState >= 2) {
+
+                barcodeDetector.detect(video)
+                .then(barcodes => {
+                    if (barcodes.length > 0) {
+                        //resultDiv.innerText = "QR Result:\n" + barcodes[0].rawValue;
+                        const cards = document.getElementById("cards");
+                        var cardName=barcodes[0].rawValue;
+                        cards.innerHTML=cards.innerHTML+"<div id='"+cardCount+"'>ID:"+cardCount+"Name:"+cardName+"<img src='images/cards/"+cardName+".png' height=100 width=70></div>"
+                        cardCount++;
+                        //resultDiv.style.display = "none";
+                        //video.style.display = "none";
+                        mainMenuDIV.style.display = "block";
+
+                    } else {
+                        requestAnimationFrame(scanFrame);
+                    }
+                })
+                .catch(err => {
+                    resultDiv.innerText = "Scan error: " + err.message;
+                });
+
+            } else {
+                requestAnimationFrame(scanFrame);
+            }
+        }
+    }
+}
+</script>
+
+</body>
+</html>
