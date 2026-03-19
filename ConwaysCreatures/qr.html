@@ -69,7 +69,15 @@ video {
 <div id="result">Starting camera...</div>
 
 <script>
+var creatures={}
+creatures.glider1=[
+"　■　",
+"　　■",
+"■■■"
+];
 var cardCount=0
+var currentSelectedCreture=null;
+var placingCretures=false;
 const cards = document.getElementById("cards");
 const battleFieldDiv = document.getElementById("battleField");
 const mainMenuDIV = document.getElementById("mainMenu");
@@ -85,8 +93,8 @@ function initBattle() {
     // Corrected loop conditions
     for (yc = 0; yc < height; yc++) {
         for (xc = 0; xc < width; xc++) {
-            htmlOutput += "<div class='divInner' id='x" + xc + ",y" + yc + "'>" + xc + "," + yc + "</div>";
-        }
+            htmlOutput += "<div class='divInner' onclick='handleClick(this.id)'' id='x" + xc + ",y" + yc + "'>" + xc + "," + yc + "</div>";
+        } 
         htmlOutput += "<br>"; // Use <br> for line breaks, consider using CSS for layout
     }
 
@@ -95,18 +103,46 @@ function initBattle() {
    //resultDiv.style.display = "none";
     //video.style.display = "none";
     
-    //placeConwaysCreatures();
+    placeConwaysCreatures();
 
 }
 function placeConwaysCreatures() {
-    const cards = document.getElementById("cards");
-    var cardName=barcodes[0].rawValue;
-    cards.innerHTML=cards.innerHTML+"<div id='"+cardCount+"'>ID:"+cardCount+"Name:"+cardName+"<img src='images/cards/"+cardName+".png' height=100 width=70></div>"
-    cardCount++;
-    //resultDiv.style.display = "none";
-    //video.style.display = "none";
-    mainMenuDIV.style.display = "block";
-    
+    //getNextCreture()
+    currentSelectedCreture=creatures.glider1;
+    //currentSelectedCreture.center.width=Math.round(currentSelectedCreture[0].length/2);
+    //currentSelectedCreture.center.height=Math.round(currentSelectedCreture.length/2);
+    currentSelectedCreture.width=currentSelectedCreture[0].length;
+    currentSelectedCreture.height=currentSelectedCreture.length;
+
+    placingCretures=true;
+}
+
+function handleClick(id) {
+    initBattle();//temporarly use this to clear board meantime we figure out how to clear just current creture
+    //alert("id;"+id);
+    // 1. Find all matches (returns an array of strings)
+    const matches = id.match(/\d+/g); // ["30", "9"]
+
+    // 2. Convert them to actual numbers
+    const numbers = matches.map(Number); // [30, 9]
+    //alert("x:"+numbers[0]+"y:"+numbers[1]);
+    var clickedX=numbers[0];
+    var clickedY=numbers[1];
+    //seems to work alert("w,h:"+currentSelectedCreture.width+","+currentSelectedCreture.height);
+    //offsetx= clickedX
+   for (var yc = 0; yc < currentSelectedCreture.height; yc++) {
+    for (var xc = 0; xc < currentSelectedCreture.width; xc++) {
+
+        var targetX = clickedX + xc;
+        var targetY = clickedY + yc;
+
+        var currentDiv = document.getElementById('x' + targetX + ',y' + targetY);
+
+        if (currentDiv) {
+            currentDiv.innerHTML = currentSelectedCreture[yc][xc];
+        }
+    }
+}
 }
 function scanQR() {
     const mainMenuDIV = document.getElementById("mainMenu");
