@@ -5,6 +5,14 @@
 <title>QR Scanner</title>
 
 <style>
+.controls {
+    position: sticky;
+    bottom: 0;
+    background: black;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+}
 body {
     margin: 0;
     background: black;
@@ -60,8 +68,8 @@ video {
 </head>
 <body>
 <div id="mainMenu">
-    <button onclick="scanQR()">カード追加 Add Card Adicionar tarjeta</button>
-    <button onclick="initBattle()">バットルスタート Battle Start Comenzar Batalla</button>
+    <button onclick="scanQR()">カード追加</button>
+    <button onclick="initBattle()">クリーチャーをフィールドに置く</button>
     <div id="cards"></div>
 </div>
 <div id="battleField"></div>
@@ -70,12 +78,20 @@ video {
 
 <script>
 var creatures={}
-creatures.glider1=[
+creatures.Glider1=[
 "　■　",
 "　　■",
 "■■■"
 ];
-var cardCount=0
+creatures.gun1=[
+"　■　",
+"■■■",
+"　■　"
+];
+
+var maxCardCount=0;
+var currentCardNumber=0;
+
 var currentSelectedCreture=null;
 var placingCretures=false;
 const cards = document.getElementById("cards");
@@ -93,12 +109,19 @@ function initBattle() {
     // Corrected loop conditions
     for (yc = 0; yc < height; yc++) {
         for (xc = 0; xc < width; xc++) {
-            htmlOutput += "<div class='divInner' onclick='handleClick(this.id)'' id='x" + xc + ",y" + yc + "'>" + xc + "," + yc + "</div>";
+            //htmlOutput += "<div class='divInner' onclick='handleClick(this.id)' id='x" + xc + ",y" + yc + "'>" + xc + "," + yc + "</div>";
+            htmlOutput += "<div class='divInner' onclick='handleClick(this.id)' id='x" + xc + ",y" + yc + "'>　</div>";
         } 
         htmlOutput += "<br>"; // Use <br> for line breaks, consider using CSS for layout
     }
 
     htmlOutput += '</div>';
+    htmlOutput += `
+<div class="controls">
+    <button onclick="rotateCreture()">回転</button>
+    <button onclick="startBattle()">バットル・スタート</button>
+</div>
+`;
     battleFieldDiv.innerHTML = htmlOutput; // Assign the full string once
    //resultDiv.style.display = "none";
     //video.style.display = "none";
@@ -106,9 +129,14 @@ function initBattle() {
     placeConwaysCreatures();
 
 }
+function getCardMatrix() {
+    const cardName = p1deck[currentCardNumber].creatureName;
+    return creatures[cardName];
+}
+//currentSelectedCreture=creatures.glider1;
 function placeConwaysCreatures() {
     //getNextCreture()
-    currentSelectedCreture=creatures.glider1;
+    
     //currentSelectedCreture.center.width=Math.round(currentSelectedCreture[0].length/2);
     //currentSelectedCreture.center.height=Math.round(currentSelectedCreture.length/2);
     currentSelectedCreture.width=currentSelectedCreture[0].length;
@@ -116,34 +144,91 @@ function placeConwaysCreatures() {
 
     placingCretures=true;
 }
+function canPlaceCreature(creature, startX, startY) {
+    for (let yc = 0; yc < creature.length; yc++) {
+        for (let xc = 0; xc < creature[0].length; xc++) {
 
+            const char = creature[yc][xc];
+
+            // ✅ only care about solid pixels
+            if (char !== "■") continue;
+
+            const targetX = startX + xc;
+            const targetY = startY + yc;
+
+            const cell = document.getElementById('x' + targetX + ',y' + targetY);
+
+            // out of bounds
+            if (!cell) return false;
+
+            // ✅ only block if target ALSO has a ■
+            if (cell.innerHTML === "■") {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 function handleClick(id) {
-    initBattle();//temporarly use this to clear board meantime we figure out how to clear just current creture
-    //alert("id;"+id);
-    // 1. Find all matches (returns an array of strings)
-    const matches = id.match(/\d+/g); // ["30", "9"]
+    currentSelectedCreture=getCardMatrix()
+    currentCardNumber++;
+    if(currentCardNumber==maxCardCount){
+        startBattle();
+    }    
+    const matches = id.match(/\d+/g);
+    const numbers = matches.map(Number);
 
-    // 2. Convert them to actual numbers
-    const numbers = matches.map(Number); // [30, 9]
-    //alert("x:"+numbers[0]+"y:"+numbers[1]);
-    var clickedX=numbers[0];
-    var clickedY=numbers[1];
-    //seems to work alert("w,h:"+currentSelectedCreture.width+","+currentSelectedCreture.height);
-    //offsetx= clickedX
-   for (var yc = 0; yc < currentSelectedCreture.height; yc++) {
-    for (var xc = 0; xc < currentSelectedCreture.width; xc++) {
+    const clickedX = numbers[0];
+    const clickedY = numbers[1];
 
-        var targetX = clickedX + xc;
-        var targetY = clickedY + yc;
+    // 🚨 check BEFORE placing
+    if (!canPlaceCreature(currentSelectedCreture, clickedX, clickedY)) {
+        alert("Cannot place here! it is overlapping with other creature!");
+        return;
+    }
 
-        var currentDiv = document.getElementById('x' + targetX + ',y' + targetY);
+    // ✅ place only if valid
+    for (let yc = 0; yc < currentSelectedCreture.length; yc++) {
+        for (let xc = 0; xc < currentSelectedCreture[0].length; xc++) {
 
-        if (currentDiv) {
-            currentDiv.innerHTML = currentSelectedCreture[yc][xc];
+            const targetX = clickedX + xc;
+            const targetY = clickedY + yc;
+
+            const cell = document.getElementById('x' + targetX + ',y' + targetY);
+
+            if (cell) {
+                cell.innerHTML = currentSelectedCreture[yc][xc];
+            }
         }
     }
 }
+function rotateCreature90(creature) {
+    const height = creature.length;
+    const width = creature[0].length;
+
+    const result = [];
+
+    for (let x = 0; x < width; x++) {
+        let newRow = "";
+        for (let y = height - 1; y >= 0; y--) {
+            newRow += creature[y][x];
+        }
+        result.push(newRow);
+    }
+    return result;
 }
+function rotateCreture() {
+    currentSelectedCreture=rotateCreature90(currentSelectedCreture);
+    // update dimensions
+    currentSelectedCreture.width = currentSelectedCreture[0].length;
+    currentSelectedCreture.height = currentSelectedCreture.length;
+    alert(currentSelectedCreture.join("\n"))//prints the current creature rotation in alert
+}
+function startBattle(){
+    alert("not implemented yet");
+}
+var p1deck=[];
+var p2deck=[];
 function scanQR() {
     const mainMenuDIV = document.getElementById("mainMenu");
     const video = document.getElementById("video");
@@ -180,13 +265,32 @@ function scanQR() {
                 .then(barcodes => {
                     if (barcodes.length > 0) {
                         //resultDiv.innerText = "QR Result:\n" + barcodes[0].rawValue;
+                        //check for validity
                         const cards = document.getElementById("cards");
                         var cardName=barcodes[0].rawValue;
-                        cards.innerHTML=cards.innerHTML+"<div id='"+cardCount+"'>ID:"+cardCount+"Name:"+cardName+"<img src='images/cards/"+cardName+".png' height=100 width=70></div>"
-                        cardCount++;
+                        
+                        switch(cardName) {
+                            case "gun1":
+                                console.log("You attack the enemy!");
+                                break;
+
+                            case "Glider1":
+                                console.log("You defend yourself!");
+                                break;
+
+                            default:
+                                alert("invalid card!");
+                                mainMenuDIV.style.display = "block";
+                                return
+                        }
+                        cards.innerHTML=cards.innerHTML+"<div id='"+maxCardCount+"'>ID:"+maxCardCount+"Name:"+cardName+"<img src='images/cards/"+cardName+".png' height=100 width=70></div>"
+                        p1deck[maxCardCount]={}
+                        p1deck[maxCardCount].creatureName=cardName
+                        maxCardCount++;
                         //resultDiv.style.display = "none";
                         //video.style.display = "none";
                         mainMenuDIV.style.display = "block";
+                        
 
                     } else {
                         requestAnimationFrame(scanFrame);
