@@ -21,9 +21,14 @@ body {
 }
 
 video {
+    display: none;
     width: 100vw;
     height: 100vh;
     object-fit: cover;
+    background: black;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
 }
 
 #mainMenu {
@@ -49,20 +54,47 @@ video {
     box-sizing: border-box;
     word-wrap: break-word;
 }
+
+#cancelScan {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    display: none;
+    padding: 12px 18px;
+    font-size: 18px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.9);
+    color: black;
+    font-weight: bold;
+}
 .divInner {
-    display: inline-block; /* Essential: allows side-by-side + box styling */
+    display: inline-block;
     width: 10px; 
     height: 10px;
     border: 2px solid #ccc; 
-    vertical-align: top;   /* Prevents weird spacing issues with text */
-    box-sizing: border-box; /* Highly recommended: keeps the 2px border INSIDE the 20px width */
-    font-size: 8px;        /* Smaller font so the coordinates fit in 20px */
+    vertical-align: top;
+    box-sizing: border-box;
+    font-size: 8px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.divInner[data-team="blue"] {
+    background: rgba(59, 130, 246, 0.9);
+    color: #dbeafe;
+}
+
+.divInner[data-team="red"] {
+    background: rgba(239, 68, 68, 0.9);
+    color: #fee2e2;
 }
 
 /* Ensure the container is wide enough for 5 items (5 * 20px) */
 .container {
     width: 1000px;
-    line-height: 0;        /* Removes extra vertical spacing between rows */
+    line-height: 0;
 }
 </style>
 </head>
@@ -74,45 +106,283 @@ video {
 </div>
 <div id="battleField"></div>
 <video id="video" autoplay playsinline></video>
+<button id="cancelScan" onclick="cancelScan()">キャンセル</button>
 <div id="result">Starting camera...</div>
 
 <script>
-var creatures={}
-creatures.Glider1=[
-"　■　",
-"　　■",
-"■■■"
-];
-creatures.gun1=[
-"　■　",
-"■■■",
-"　■　"
-];
+function makePattern(...rows) {
+    const width = rows.reduce((max, row) => Math.max(max, row.length), 0);
+    return rows.map(row => row.padEnd(width, '.').replace(/#/g, '■').replace(/\./g, ' '));
+}
+
+var creatures = {
+    Glider1: makePattern(".#.", "#..", "###"),
+    gun1: makePattern(".#.", "###", ".#."),
+    Blinker: makePattern("###"),
+    Toad: makePattern(".###", "###."),
+    Beacon: makePattern("##..", "##..", "..##", "..##"),
+    Acorn: makePattern(".#.", "..#", "###"),
+    Boat: makePattern("##.", "#.#", ".#."),
+    Loaf: makePattern(".##.", "##.#", "#..#", ".#.#"),
+    Tub: makePattern(".#.", "###", ".#."),
+    Eater: makePattern("##.", "#.#", "###"),
+    Diamond: makePattern("..#..", ".#.#.", "#####", ".#.#.", "..#.."),
+    Cross: makePattern(".#.", "###", ".#."),
+    LongBar: makePattern("#####", "#####", "#####"),
+    Puffer: makePattern("###", "#.#", "###"),
+    Barge: makePattern("##.", "#.#", ".##"),
+    Cannon: makePattern(".##.", "#..#", "#..#", ".##."),
+    Pulsar: makePattern("..###...###..", ".#...#.#...#.", ".#...#.#...#.", ".#...#.#...#.", "..###...###..", ".#...#.#...#.", ".#...#.#...#.", ".#...#.#...#.", "..###...###.."),
+    Pentadecathlon: makePattern("..#..", ".###.", "###", ".###.", "..#.."),
+    Glider: makePattern(".#.", "#..", "###"),
+    Sailboat: makePattern(".##.", "##.#", "#..#", ".#.#"),
+    Crown: makePattern(".#.#.", "#####", ".###.", "..#.."),
+    Heart: makePattern(".#.#.", "#####", ".###.", "..#.."),
+    Mango: makePattern("..##.", ".####", "####.", ".##.."),
+    Tumbler: makePattern(".##..##.", ".##..##.", "..####..", "..####.."),
+    LightweightSpaceship: makePattern(".##.", "#..#", "####", "..##"),
+    MiddleweightSpaceship: makePattern("..##.", ".#..#", "#...#", "#####"),
+    HeavyweightSpaceship: makePattern("..###.", ".#...#", "#....#", "######")
+};
 
 var maxCardCount=0;
 var currentCardNumber=0;
+var currentTeam = "blue";
+var battleInProgress = false;
+var battleTimerHandle = null;
+var battleStartedAt = 0;
+var battleDurationMs = 60000;
 
 var currentSelectedCreture=null;
 var placingCretures=false;
 const cards = document.getElementById("cards");
 const battleFieldDiv = document.getElementById("battleField");
 const mainMenuDIV = document.getElementById("mainMenu");
+const video = document.getElementById("video");
+const resultDiv = document.getElementById("result");
+const cancelScanBtn = document.getElementById("cancelScan");
+
+function stopCameraStream() {
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+    }
+    if (video.pause) {
+        video.pause();
+    }
+}
+
+function showMainMenu() {
+    mainMenuDIV.style.display = "block";
+    battleFieldDiv.style.display = "none";
+    video.style.display = "none";
+    cancelScanBtn.style.display = "none";
+    resultDiv.style.display = "block";
+    stopCameraStream();
+}
+
+function showScanner() {
+    mainMenuDIV.style.display = "none";
+    battleFieldDiv.style.display = "none";
+    video.style.display = "block";
+    cancelScanBtn.style.display = "block";
+    resultDiv.style.display = "block";
+}
+
+function cancelScan() {
+    resultDiv.innerText = "Scanning cancelled.";
+    showMainMenu();
+}
+
+function getTeamColor(teamName) {
+    if (teamName === "red") return "#ef4444";
+    return "#3b82f6";
+}
+
+function getCellCount(teamName) {
+    const cells = battleFieldDiv.querySelectorAll(".divInner");
+    let count = 0;
+
+    cells.forEach(cell => {
+        if (cell.dataset.team === teamName) count += 1;
+    });
+
+    return count;
+}
+
+function updateBattleStatus() {
+    if (!battleInProgress) return;
+
+    const remainingMs = Math.max(0, battleStartedAt + battleDurationMs - Date.now());
+    const secondsLeft = Math.ceil(remainingMs / 1000);
+    const mins = Math.floor(secondsLeft / 60);
+    const secs = secondsLeft % 60;
+
+    resultDiv.innerText = "Battle in progress: " + mins + ":" + String(secs).padStart(2, "0");
+}
+
+function finishBattle() {
+    if (!battleInProgress) return;
+
+    clearInterval(battleTimerHandle);
+    battleTimerHandle = null;
+    battleInProgress = false;
+
+    const blueCount = getCellCount("blue");
+    const redCount = getCellCount("red");
+
+    if (blueCount > redCount) {
+        resultDiv.innerText = "Blue team wins! " + blueCount + " to " + redCount;
+    } else if (redCount > blueCount) {
+        resultDiv.innerText = "Red team wins! " + redCount + " to " + blueCount;
+    } else {
+        resultDiv.innerText = "Tie game! Both teams have " + blueCount + " cells.";
+    }
+}
+
+function getBoardCell(x, y) {
+    return document.getElementById('x' + x + ',y' + y);
+}
+
+function syncCellAppearance(cell) {
+    if (!cell) return;
+
+    const team = cell.dataset.team || "";
+    if (!team) {
+        cell.innerHTML = " ";
+        cell.style.background = "rgba(255,255,255,0.08)";
+        cell.style.color = "white";
+        return;
+    }
+
+    cell.innerHTML = "■";
+    cell.style.background = team === "blue" ? "#3b82f6" : "#ef4444";
+    cell.style.color = team === "blue" ? "#dbeafe" : "#fee2e2";
+}
+
+function tickConwayBattle() {
+    const nextTeams = new Map();
+    const width = 40;
+    const height = 60;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            const cell = getBoardCell(x, y);
+            const currentTeam = cell && cell.dataset.team ? cell.dataset.team : "";
+            let liveNeighbors = 0;
+            let blueNeighbors = 0;
+            let redNeighbors = 0;
+
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    if (dx === 0 && dy === 0) continue;
+
+                    const nx = x + dx;
+                    const ny = y + dy;
+                    if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+
+                    const neighbor = getBoardCell(nx, ny);
+                    if (!neighbor || !neighbor.dataset.team) continue;
+
+                    liveNeighbors += 1;
+                    if (neighbor.dataset.team === "blue") blueNeighbors += 1;
+                    else if (neighbor.dataset.team === "red") redNeighbors += 1;
+                }
+            }
+
+            if (currentTeam) {
+                if (liveNeighbors === 2 || liveNeighbors === 3) {
+                    nextTeams.set(x + "," + y, currentTeam);
+                }
+            } else if (liveNeighbors === 3) {
+                if (blueNeighbors > redNeighbors) nextTeams.set(x + "," + y, "blue");
+                else if (redNeighbors > blueNeighbors) nextTeams.set(x + "," + y, "red");
+            }
+        }
+    }
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            const cell = getBoardCell(x, y);
+            const nextTeam = nextTeams.get(x + "," + y) || "";
+            cell.dataset.team = nextTeam;
+            syncCellAppearance(cell);
+        }
+    }
+}
+
+function normalizeCreatureName(rawName) {
+    let value = String(rawName || "").trim();
+    if (!value) return "";
+
+    try {
+        value = decodeURIComponent(value);
+    } catch (error) {
+    }
+
+    value = value.split(/[?#]/)[0].split(/[\\/]/).pop();
+    value = value.replace(/\.png$/i, "").trim();
+
+    const aliases = {
+        sailboat: "Sailboat",
+        glider1: "Glider1",
+        gun1: "gun1",
+        lightweightspaceship: "LightweightSpaceship",
+        middleweightspaceship: "MiddleweightSpaceship",
+        heavyweightspaceship: "HeavyweightSpaceship"
+    };
+
+    return aliases[value.toLowerCase()] || value;
+}
+
+function getCreatureByName(rawName) {
+    const exact = normalizeCreatureName(rawName);
+    if (creatures[exact]) {
+        return creatures[exact];
+    }
+
+    const lowerName = exact.toLowerCase();
+    for (const key of Object.keys(creatures)) {
+        if (key.toLowerCase() === lowerName) {
+            return creatures[key];
+        }
+    }
+
+    return null;
+}
+
+function getCardMatrix() {
+    if (!Array.isArray(p1deck) || currentCardNumber < 0 || currentCardNumber >= p1deck.length) {
+        return null;
+    }
+
+    const cardName = p1deck[currentCardNumber] && p1deck[currentCardNumber].creatureName;
+    const pattern = getCreatureByName(cardName);
+    if (!pattern) {
+        return null;
+    }
+
+    return pattern;
+}
+
 function initBattle() {
-    //initfield
     mainMenuDIV.style.display = "none";
     battleFieldDiv.style.display = "block";
+    currentTeam = "blue";
+    battleInProgress = false;
+    clearInterval(battleTimerHandle);
+    battleTimerHandle = null;
+
     var width = 40;
     var height = 60;
     var xc, yc;
     var htmlOutput = '<div class="container">';
 
-    // Corrected loop conditions
     for (yc = 0; yc < height; yc++) {
         for (xc = 0; xc < width; xc++) {
-            //htmlOutput += "<div class='divInner' onclick='handleClick(this.id)' id='x" + xc + ",y" + yc + "'>" + xc + "," + yc + "</div>";
             htmlOutput += "<div class='divInner' onclick='handleClick(this.id)' id='x" + xc + ",y" + yc + "'>　</div>";
         } 
-        htmlOutput += "<br>"; // Use <br> for line breaks, consider using CSS for layout
+        htmlOutput += "<br>";
     }
 
     htmlOutput += '</div>';
@@ -122,47 +392,36 @@ function initBattle() {
     <button onclick="startBattle()">バットル・スタート</button>
 </div>
 `;
-    battleFieldDiv.innerHTML = htmlOutput; // Assign the full string once
-   //resultDiv.style.display = "none";
-    //video.style.display = "none";
-    
+    battleFieldDiv.innerHTML = htmlOutput;
+    resultDiv.innerText = "Blue team's turn";
     placeConwaysCreatures();
+}
 
-}
-function getCardMatrix() {
-    const cardName = p1deck[currentCardNumber].creatureName;
-    return creatures[cardName];
-}
-//currentSelectedCreture=creatures.glider1;
 function placeConwaysCreatures() {
-    //getNextCreture()
-    
-    //currentSelectedCreture.center.width=Math.round(currentSelectedCreture[0].length/2);
-    //currentSelectedCreture.center.height=Math.round(currentSelectedCreture.length/2);
+    if (!currentSelectedCreture) {
+        currentSelectedCreture = getCardMatrix();
+    }
+
+    if (!currentSelectedCreture) {
+        return;
+    }
+
     currentSelectedCreture.width=currentSelectedCreture[0].length;
     currentSelectedCreture.height=currentSelectedCreture.length;
-
     placingCretures=true;
 }
 function canPlaceCreature(creature, startX, startY) {
     for (let yc = 0; yc < creature.length; yc++) {
         for (let xc = 0; xc < creature[0].length; xc++) {
-
             const char = creature[yc][xc];
-
-            // ✅ only care about solid pixels
             if (char !== "■") continue;
 
             const targetX = startX + xc;
             const targetY = startY + yc;
-
             const cell = document.getElementById('x' + targetX + ',y' + targetY);
 
-            // out of bounds
             if (!cell) return false;
-
-            // ✅ only block if target ALSO has a ■
-            if (cell.innerHTML === "■") {
+            if (cell.innerHTML === "■" || cell.dataset.team) {
                 return false;
             }
         }
@@ -170,42 +429,65 @@ function canPlaceCreature(creature, startX, startY) {
     return true;
 }
 function handleClick(id) {
-    currentSelectedCreture=getCardMatrix()
-    currentCardNumber++;
-    if(currentCardNumber==maxCardCount){
-        startBattle();
-    }    
-    const matches = id.match(/\d+/g);
-    const numbers = matches.map(Number);
+    if (battleInProgress) {
+        resultDiv.innerText = "Battle is already in progress.";
+        return;
+    }
 
+    currentSelectedCreture = getCardMatrix();
+
+    if (!currentSelectedCreture) {
+        alert("先にカードを追加してください。");
+        return;
+    }
+
+    const matches = id.match(/\d+/g);
+    if (!matches || matches.length < 2) {
+        alert("無効なセルです。");
+        return;
+    }
+
+    const numbers = matches.map(Number);
     const clickedX = numbers[0];
     const clickedY = numbers[1];
 
-    // 🚨 check BEFORE placing
     if (!canPlaceCreature(currentSelectedCreture, clickedX, clickedY)) {
         alert("Cannot place here! it is overlapping with other creature!");
         return;
     }
 
-    // ✅ place only if valid
+    const teamName = currentTeam;
+    const teamColor = getTeamColor(teamName);
+
     for (let yc = 0; yc < currentSelectedCreture.length; yc++) {
         for (let xc = 0; xc < currentSelectedCreture[0].length; xc++) {
-
             const targetX = clickedX + xc;
             const targetY = clickedY + yc;
-
             const cell = document.getElementById('x' + targetX + ',y' + targetY);
 
             if (cell) {
                 cell.innerHTML = currentSelectedCreture[yc][xc];
+                cell.dataset.team = teamName;
+                cell.style.color = teamColor;
+                cell.style.background = teamColor;
             }
         }
+    }
+
+    currentCardNumber += 1;
+    currentTeam = currentTeam === "blue" ? "red" : "blue";
+
+    if (currentCardNumber < maxCardCount) {
+        currentSelectedCreture = getCardMatrix();
+        resultDiv.innerText = currentTeam === "blue" ? "Blue team's turn" : "Red team's turn";
+    } else {
+        resultDiv.innerText = "All creatures placed. Press battle start when ready.";
+        currentSelectedCreture = null;
     }
 }
 function rotateCreature90(creature) {
     const height = creature.length;
     const width = creature[0].length;
-
     const result = [];
 
     for (let x = 0; x < width; x++) {
@@ -218,91 +500,104 @@ function rotateCreature90(creature) {
     return result;
 }
 function rotateCreture() {
-    currentSelectedCreture=rotateCreature90(currentSelectedCreture);
-    // update dimensions
+    if (!currentSelectedCreture) {
+        alert("回転するクリーチャーを選択してください。");
+        return;
+    }
+
+    currentSelectedCreture = rotateCreature90(currentSelectedCreture);
     currentSelectedCreture.width = currentSelectedCreture[0].length;
     currentSelectedCreture.height = currentSelectedCreture.length;
-    alert(currentSelectedCreture.join("\n"))//prints the current creature rotation in alert
+    alert(currentSelectedCreture.join("\n"));
 }
 function startBattle(){
-    alert("not implemented yet");
+    if (battleInProgress) {
+        return;
+    }
+
+    const secondsPrompt = prompt("How long would you like the battle to last in seconds?", "60");
+    const seconds = Number(secondsPrompt);
+    const safeSeconds = Number.isFinite(seconds) && seconds > 0 ? seconds : 60;
+
+    battleInProgress = true;
+    battleDurationMs = safeSeconds * 1000;
+    battleStartedAt = Date.now();
+    updateBattleStatus();
+
+    battleTimerHandle = setInterval(function() {
+        if (Date.now() >= battleStartedAt + battleDurationMs) {
+            finishBattle();
+            return;
+        }
+
+        tickConwayBattle();
+        updateBattleStatus();
+    }, 450);
 }
 var p1deck=[];
 var p2deck=[];
+
 function scanQR() {
-    const mainMenuDIV = document.getElementById("mainMenu");
-    const video = document.getElementById("video");
-    const resultDiv = document.getElementById("result");
-    mainMenuDIV.style.display = "none";
-    if (!("BarcodeDetector" in window)) {
-        //resultDiv.innerText = "BarcodeDetector not supported.";
+    showScanner();
+
+    if (!("BarcodeDetector" in window) || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         resultDiv.innerText = "PLEASE RUNT HIS ON AN MODERN ANDROID DEVICE.";
-    } else {
+        showMainMenu();
+        return;
+    }
 
-        const barcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });
+    const barcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });
 
-        navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "environment" }
-        })
-        .then(stream => {
-            video.srcObject = stream;
+    navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+    })
+    .then(stream => {
+        video.srcObject = stream;
 
-            video.onloadedmetadata = () => {
-                video.play();
-                resultDiv.innerText = "Scanning...";
-                requestAnimationFrame(scanFrame);
-            };
-        })
-        .catch(err => {
-            resultDiv.innerText = "Camera error: " + err.message;
-        });
+        video.onloadedmetadata = () => {
+            video.play().catch(() => {
+                resultDiv.innerText = "Camera start failed.";
+                showMainMenu();
+            });
+            resultDiv.innerText = "Scanning...";
+            requestAnimationFrame(scanFrame);
+        };
+    })
+    .catch(err => {
+        resultDiv.innerText = "Camera error: " + err.message;
+        showMainMenu();
+    });
 
-        function scanFrame() {
+    function scanFrame() {
+        if (video.readyState >= 2) {
+            barcodeDetector.detect(video)
+            .then(barcodes => {
+                if (barcodes.length > 0) {
+                    const cards = document.getElementById("cards");
+                    var cardName = normalizeCreatureName(barcodes[0].rawValue);
+                    var creature = getCreatureByName(cardName);
 
-            if (video.readyState >= 2) {
-
-                barcodeDetector.detect(video)
-                .then(barcodes => {
-                    if (barcodes.length > 0) {
-                        //resultDiv.innerText = "QR Result:\n" + barcodes[0].rawValue;
-                        //check for validity
-                        const cards = document.getElementById("cards");
-                        var cardName=barcodes[0].rawValue;
-                        
-                        switch(cardName) {
-                            case "gun1":
-                                console.log("You attack the enemy!");
-                                break;
-
-                            case "Glider1":
-                                console.log("You defend yourself!");
-                                break;
-
-                            default:
-                                alert("invalid card!");
-                                mainMenuDIV.style.display = "block";
-                                return
-                        }
-                        cards.innerHTML=cards.innerHTML+"<div id='"+maxCardCount+"'>ID:"+maxCardCount+"Name:"+cardName+"<img src='images/cards/"+cardName+".png' height=100 width=70></div>"
-                        p1deck[maxCardCount]={}
-                        p1deck[maxCardCount].creatureName=cardName
-                        maxCardCount++;
-                        //resultDiv.style.display = "none";
-                        //video.style.display = "none";
-                        mainMenuDIV.style.display = "block";
-                        
-
-                    } else {
-                        requestAnimationFrame(scanFrame);
+                    if (!creature) {
+                        alert("invalid card!");
+                        showMainMenu();
+                        return;
                     }
-                })
-                .catch(err => {
-                    resultDiv.innerText = "Scan error: " + err.message;
-                });
 
-            } else {
-                requestAnimationFrame(scanFrame);
-            }
+                    const safeName = cardName.replace(/[^a-zA-Z0-9_]/g, "_");
+                    cards.innerHTML = cards.innerHTML + "<div id='" + maxCardCount + "'>ID:" + maxCardCount + "Name:" + cardName + "<img src='images/cards/" + safeName + ".png' height=100 width=70></div>";
+                    p1deck[maxCardCount] = { creatureName: cardName };
+                    maxCardCount++;
+                    showMainMenu();
+                } else {
+                    requestAnimationFrame(scanFrame);
+                }
+            })
+            .catch(err => {
+                resultDiv.innerText = "Scan error: " + err.message;
+                showMainMenu();
+            });
+        } else {
+            requestAnimationFrame(scanFrame);
         }
     }
 }
