@@ -5,53 +5,133 @@
 <title>QR Scanner</title>
 
 <style>
-.controls {
-    position: sticky;
-    bottom: 0;
-    background: black;
-    padding: 10px;
-    display: flex;
-    gap: 10px;
+* {
+    box-sizing: border-box;
 }
+
+html,
 body {
-    margin: 0;
-    background: black;
-    color: white;
-    font-family: Arial, sans-serif;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
 }
 
 video {
     display: none;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    background: black;
     position: fixed;
     inset: 0;
     z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    object-fit: cover;
+    background: black;
 }
 
 #mainMenu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
     width: 100vw;
     height: 100vh;
-    object-fit: cover;
+    height: 100dvh;
+    padding: 24px 16px;
+    overflow: auto;
+    isolation: isolate;
+    background: #081226;
 }
 
-#battleField {
-    display: none;
-    width: 100vw;
-    height: 100vh;
+#mainMenu::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(5, 12, 30, 0.08) 25%, rgba(5, 8, 18, 0.9) 78%, #050811 100%);
+    content: "";
+}
+
+.menu-art {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
+}
+
+.menu-panel {
+    width: min(100%, 520px);
+    padding: 20px 0 0;
+    text-align: center;
+}
+
+.menu-kicker {
+    margin: 0 0 6px;
+    color: #9edfff;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+}
+
+.menu-title {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(30px, 9vw, 54px);
+    line-height: 0.95;
+    letter-spacing: 0.04em;
+    text-shadow: 0 3px 18px rgba(50, 169, 255, 0.55);
+}
+
+.menu-subtitle {
+    margin: 10px 0 18px;
+    color: #c9d6e8;
+    font-size: 14px;
+}
+
+#mainMenu > .menu-panel > button {
+    width: 100%;
+    min-height: 72px;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    touch-action: manipulation;
+}
+
+.scan-button {
+    background: linear-gradient(100deg, #1274d8, #25b7e9);
+}
+
+.battle-button {
+    background: linear-gradient(100deg, #a9254d, #e23e57);
+}
+
+#cards {
+    max-height: 20vh;
+    overflow: auto;
+    margin-top: 14px;
+    padding: 8px;
+    background: rgba(3, 8, 20, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    box-sizing: border-box;
+    word-wrap: break-word;
 }
 
 #result {
     position: fixed;
-    bottom: 0;
+    bottom: 112px;
+    left: 0;
+    z-index: 4;
     width: 100%;
-    background: rgba(0,0,0,0.8);
-    padding: 20px;
-    font-size: 22px;
-    box-sizing: border-box;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.8);
+    font-size: clamp(16px, 4vw, 22px);
     word-wrap: break-word;
 }
 
@@ -62,23 +142,58 @@ video {
     z-index: 2;
     display: none;
     padding: 12px 18px;
-    font-size: 18px;
     border: none;
     border-radius: 999px;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     color: black;
+    font-size: 18px;
     font-weight: bold;
 }
+
+#battleField {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    gap: 10px;
+    min-height: 112px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.9);
+}
+
+button {
+    min-height: 96px;
+    padding: 16px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 16px;
+    touch-action: manipulation;
+}
+
+.controls button {
+    flex: 1;
+}
+
 .divInner {
-    display: inline-block;
-    width: 10px; 
-    height: 10px;
-    border: 2px solid #ccc; 
-    vertical-align: top;
-    box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid #777;
     font-size: 8px;
     background: rgba(255,255,255,0.08);
     color: white;
+    overflow: hidden;
 }
 
 .divInner[data-team="blue"] {
@@ -91,18 +206,30 @@ video {
     color: #fee2e2;
 }
 
-/* Ensure the container is wide enough for 5 items (5 * 20px) */
 .container {
-    width: 1000px;
-    line-height: 0;
+    display: grid;
+    grid-template-columns: repeat(40, minmax(0, 1fr));
+    grid-template-rows: repeat(140, minmax(0, 1fr));
+    width: 100%;
+    height: 100%;
+}
+
+.container br {
+    display: none;
 }
 </style>
 </head>
 <body>
 <div id="mainMenu">
-    <button onclick="scanQR()">カード追加</button>
-    <button onclick="initBattle()">クリーチャーをフィールドに置く</button>
-    <div id="cards"></div>
+    <img class="menu-art" src="images/voxel-battle.svg" alt="Blue and red voxel Conway creatures battling">
+    <div class="menu-panel">
+        <p class="menu-kicker">Cellular Arena</p>
+        <h1 class="menu-title">Conway's Creatures</h1>
+        <p class="menu-subtitle">Build your living army. Start the evolution.</p>
+        <button class="scan-button" onclick="scanQR()">カード追加</button>
+        <button class="battle-button" onclick="initBattle()">クリーチャーをフィールドに置く</button>
+        <div id="cards"></div>
+    </div>
 </div>
 <div id="battleField"></div>
 <video id="video" autoplay playsinline></video>
@@ -132,7 +259,6 @@ var creatures = {
     Puffer: makePattern("###", "#.#", "###"),
     Barge: makePattern("##.", "#.#", ".##"),
     Cannon: makePattern(".##.", "#..#", "#..#", ".##."),
-    Pulsar: makePattern("..###...###..", ".#...#.#...#.", ".#...#.#...#.", ".#...#.#...#.", "..###...###..", ".#...#.#...#.", ".#...#.#...#.", ".#...#.#...#.", "..###...###.."),
     Pentadecathlon: makePattern("..#..", ".###.", "###", ".###.", "..#.."),
     Glider: makePattern(".#.", "#..", "###"),
     Sailboat: makePattern(".##.", "##.#", "#..#", ".#.#"),
@@ -142,7 +268,48 @@ var creatures = {
     Tumbler: makePattern(".##..##.", ".##..##.", "..####..", "..####.."),
     LightweightSpaceship: makePattern(".##.", "#..#", "####", "..##"),
     MiddleweightSpaceship: makePattern("..##.", ".#..#", "#...#", "#####"),
-    HeavyweightSpaceship: makePattern("..###.", ".#...#", "#....#", "######")
+    HeavyweightSpaceship: makePattern("..###.", ".#...#", "#....#", "######"),
+    Block: makePattern("##", "##"),
+    Beehive: makePattern(".##.", "#..#", ".##."),
+    Pond: makePattern(".##.", "#..#", "#..#", ".##."),
+    BlockPair: makePattern("##..##", "##..##"),
+    Snake: makePattern("##..", "#..#", "..##"),
+    AircraftCarrier: makePattern("##..", "#..#", "..##"),
+    BlockCluster: makePattern("##..##..##", "##..##..##"),
+    DoubleBlock: makePattern("##..##", "##..##"),
+    HoneyFarm: makePattern(".##..##.", "#..##..#", ".##..##."),
+    Ship: makePattern("##..", "#.#.", ".#.."),
+    SnakePit: makePattern(".##..##.", "#..##..#", ".##..##."),
+    Clock: makePattern(".##.", "#..#", ".##.", "#..#"),
+    FigureEight: makePattern(".##.", "#..#", ".##.", ".##.", "#..#", ".##."),
+    KokGalaxy: makePattern("##..##", "#....#", "..##..", "..##..", "#....#", "##..##"),
+    Rpentomino: makePattern(".##", "##.", ".#."),
+    Diehard: makePattern("......#.", "##......", ".#...###"),
+    Rabbits: makePattern("##...##", "..#.#..", "..#.#..", "...#..."),
+    PufferTrain: makePattern("##...##", "#.#.#.#", "..###..", "...#..."),
+    Pufferfish: makePattern(".###.", "#...#", "#####", "..#.."),
+    LightweightSpaceship2: makePattern("..##.", ".#..#", "#...#", "#####"),
+    Snail: makePattern("..##.", ".#..#", "#...#", ".####"),
+    Dart: makePattern("..#..", ".###.", "#####", "..#.."),
+    Spider: makePattern("##..##", "..##..", "##..##"),
+    QueenBee: makePattern(".##...##.", "#..#.#..#", ".##...##.")
+};
+
+var creatureCategories = {
+    Glider1: "Spaceship", gun1: "Oscillator", Blinker: "Oscillator", Toad: "Oscillator",
+    Beacon: "Oscillator", Acorn: "Methuselah", Boat: "Still Life", Loaf: "Still Life",
+    Tub: "Still Life", Eater: "Still Life", Diamond: "Still Life", Cross: "Still Life",
+    LongBar: "Still Life", Puffer: "Puffer Train", Barge: "Still Life", Cannon: "Still Life",
+    Pentadecathlon: "Oscillator", Glider: "Spaceship", Sailboat: "Spaceship",
+    Crown: "Still Life", Heart: "Still Life", Mango: "Still Life", Tumbler: "Oscillator",
+    LightweightSpaceship: "Spaceship", MiddleweightSpaceship: "Spaceship", HeavyweightSpaceship: "Spaceship",
+    Block: "Still Life", Beehive: "Still Life", Pond: "Still Life", BlockPair: "Still Life",
+    Snake: "Still Life", AircraftCarrier: "Still Life", BlockCluster: "Still Life", DoubleBlock: "Still Life",
+    HoneyFarm: "Still Life", Ship: "Still Life", SnakePit: "Still Life", Clock: "Oscillator",
+    FigureEight: "Oscillator", KokGalaxy: "Oscillator", Rpentomino: "Methuselah", Diehard: "Methuselah",
+    Rabbits: "Methuselah", PufferTrain: "Puffer Train",
+    Pufferfish: "Puffer Train", LightweightSpaceship2: "Spaceship", Snail: "Spaceship",
+    Dart: "Spaceship", Spider: "Spaceship", QueenBee: "Still Life"
 };
 
 var maxCardCount=0;
@@ -152,6 +319,9 @@ var battleInProgress = false;
 var battleTimerHandle = null;
 var battleStartedAt = 0;
 var battleDurationMs = 60000;
+var previousBoardState = "";
+var unchangedBoardFrames = 0;
+var stableFramesRequired = 5;
 
 var currentSelectedCreture=null;
 var placingCretures=false;
@@ -173,7 +343,7 @@ function stopCameraStream() {
 }
 
 function showMainMenu() {
-    mainMenuDIV.style.display = "block";
+    mainMenuDIV.style.display = "flex";
     battleFieldDiv.style.display = "none";
     video.style.display = "none";
     cancelScanBtn.style.display = "none";
@@ -210,6 +380,15 @@ function getCellCount(teamName) {
     return count;
 }
 
+function getBoardState() {
+    const cells = battleFieldDiv.querySelectorAll(".divInner");
+    return Array.from(cells, cell => cell.dataset.team || "").join("");
+}
+
+function hasLiveCells() {
+    return getCellCount("blue") + getCellCount("red") > 0;
+}
+
 function updateBattleStatus() {
     if (!battleInProgress) return;
 
@@ -221,7 +400,7 @@ function updateBattleStatus() {
     resultDiv.innerText = "Battle in progress: " + mins + ":" + String(secs).padStart(2, "0");
 }
 
-function finishBattle() {
+function finishBattle(endReason) {
     if (!battleInProgress) return;
 
     clearInterval(battleTimerHandle);
@@ -231,13 +410,20 @@ function finishBattle() {
     const blueCount = getCellCount("blue");
     const redCount = getCellCount("red");
 
+    let resultMessage;
     if (blueCount > redCount) {
-        resultDiv.innerText = "Blue team wins! " + blueCount + " to " + redCount;
+        resultMessage = "Blue team wins!";
     } else if (redCount > blueCount) {
-        resultDiv.innerText = "Red team wins! " + redCount + " to " + blueCount;
+        resultMessage = "Red team wins!";
     } else {
-        resultDiv.innerText = "Tie game! Both teams have " + blueCount + " cells.";
+        resultMessage = "Tie game!";
     }
+
+    const reasonMessage = endReason ? "\n" + endReason : "";
+    const countMessage = "\nBlue blocks: " + blueCount + "\nRed blocks: " + redCount;
+    const finalMessage = resultMessage + reasonMessage + countMessage;
+    resultDiv.innerText = finalMessage;
+    alert(finalMessage);
 }
 
 function getBoardCell(x, y) {
@@ -263,7 +449,7 @@ function syncCellAppearance(cell) {
 function tickConwayBattle() {
     const nextTeams = new Map();
     const width = 40;
-    const height = 60;
+    const height = 140;
 
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
@@ -372,9 +558,11 @@ function initBattle() {
     battleInProgress = false;
     clearInterval(battleTimerHandle);
     battleTimerHandle = null;
+    previousBoardState = "";
+    unchangedBoardFrames = 0;
 
     var width = 40;
-    var height = 60;
+    var height = 140;
     var xc, yc;
     var htmlOutput = '<div class="container">';
 
@@ -461,6 +649,8 @@ function handleClick(id) {
 
     for (let yc = 0; yc < currentSelectedCreture.length; yc++) {
         for (let xc = 0; xc < currentSelectedCreture[0].length; xc++) {
+            if (currentSelectedCreture[yc][xc] !== "■") continue;
+
             const targetX = clickedX + xc;
             const targetY = clickedY + yc;
             const cell = document.getElementById('x' + targetX + ',y' + targetY);
@@ -522,6 +712,8 @@ function startBattle(){
     battleInProgress = true;
     battleDurationMs = safeSeconds * 1000;
     battleStartedAt = Date.now();
+    previousBoardState = getBoardState();
+    unchangedBoardFrames = 0;
     updateBattleStatus();
 
     battleTimerHandle = setInterval(function() {
@@ -531,6 +723,24 @@ function startBattle(){
         }
 
         tickConwayBattle();
+        const currentBoardState = getBoardState();
+        if (!hasLiveCells()) {
+            finishBattle("All cells are empty.");
+            return;
+        }
+
+        if (currentBoardState === previousBoardState) {
+            unchangedBoardFrames += 1;
+        } else {
+            unchangedBoardFrames = 0;
+        }
+
+        if (unchangedBoardFrames >= stableFramesRequired) {
+            finishBattle("The board reached a stable configuration.");
+            return;
+        }
+
+        previousBoardState = currentBoardState;
         updateBattleStatus();
     }, 450);
 }

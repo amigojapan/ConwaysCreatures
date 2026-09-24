@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1400" role="img" aria-labelledby="title desc">
+  <title id="title">Blue and red Conway creatures battling as glowing voxel formations</title>
+  <desc id="desc">A dark cellular arena with blue voxel life forms approaching red voxel life forms in the center.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#07152e"/>
+      <stop offset="0.55" stop-color="#10152a"/>
+      <stop offset="1" stop-color="#200d1d"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#182c4a"/>
+      <stop offset="0.5" stop-color="#14152e"/>
+      <stop offset="1" stop-color="#4a182a"/>
+    </linearGradient>
+    <linearGradient id="blueTop" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8ce7ff"/><stop offset="1" stop-color="#2494ff"/></linearGradient>
+    <linearGradient id="blueSide" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1672d6"/><stop offset="1" stop-color="#073c9b"/></linearGradient>
+    <linearGradient id="redTop" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb08a"/><stop offset="1" stop-color="#ff416c"/></linearGradient>
+    <linearGradient id="redSide" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d52850"/><stop offset="1" stop-color="#821d43"/></linearGradient>
+    <filter id="glowBlue"><feGaussianBlur stdDeviation="14" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowRed"><feGaussianBlur stdDeviation="14" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse" patternTransform="skewY(-25)">
+      <path d="M54 0H0V54" fill="none" stroke="#7bc9e8" stroke-opacity=".11" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="1400" fill="url(#sky)"/>
+  <circle cx="170" cy="420" r="180" fill="#158eff" opacity=".12" filter="url(#glowBlue)"/>
+  <circle cx="740" cy="600" r="190" fill="#ff315e" opacity=".13" filter="url(#glowRed)"/>
+  <path d="M0 830L450 590L900 830V1400H0Z" fill="url(#floor)"/>
+  <path d="M0 830L450 590L900 830V1400H0Z" fill="url(#grid)" opacity=".9"/>
+  <g opacity=".65" fill="#a8eaff">
+    <circle cx="90" cy="185" r="3"/><circle cx="300" cy="280" r="4"/><circle cx="560" cy="160" r="3"/><circle cx="805" cy="310" r="4"/><circle cx="705" cy="440" r="2"/>
+  </g>
+  <g stroke-linejoin="round">
+    <g transform="translate(118 650)" filter="url(#glowBlue)">
+      <g transform="translate(0 100)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#blueTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#blueSide)"/><path d="M40 24V76L66 60V8Z" fill="#0a55b4"/></g>
+      <g transform="translate(54 55)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#blueTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#blueSide)"/><path d="M40 24V76L66 60V8Z" fill="#0a55b4"/></g>
+      <g transform="translate(108 10)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#blueTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#blueSide)"/><path d="M40 24V76L66 60V8Z" fill="#0a55b4"/></g>
+      <g transform="translate(108 100)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#blueTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#blueSide)"/><path d="M40 24V76L66 60V8Z" fill="#0a55b4"/></g>
+      <g transform="translate(54 145)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#blueTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#blueSide)"/><path d="M40 24V76L66 60V8Z" fill="#0a55b4"/></g>
+    </g>
+    <g transform="translate(560 700)" filter="url(#glowRed)">
+      <g transform="translate(0 10)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#redTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#redSide)"/><path d="M40 24V76L66 60V8Z" fill="#9c2046"/></g>
+      <g transform="translate(54 55)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#redTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#redSide)"/><path d="M40 24V76L66 60V8Z" fill="#9c2046"/></g>
+      <g transform="translate(108 100)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#redTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#redSide)"/><path d="M40 24V76L66 60V8Z" fill="#9c2046"/></g>
+      <g transform="translate(108 10)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#redTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#redSide)"/><path d="M40 24V76L66 60V8Z" fill="#9c2046"/></g>
+      <g transform="translate(54 145)"><path d="M0 0L26-15L66 8L40 24Z" fill="url(#redTop)"/><path d="M0 0V52L40 76V24Z" fill="url(#redSide)"/><path d="M40 24V76L66 60V8Z" fill="#9c2046"/></g>
+    </g>
+  </g>
+  <g opacity=".95">
+    <path d="M410 770l34-60 34 60-34 60z" fill="#fff2a1" filter="url(#glowBlue)"/>
+    <path d="M450 710l34 60-34 60-34-60z" fill="#ffb23e" filter="url(#glowRed)"/>
+  </g>
+  <text x="450" y="1160" text-anchor="middle" fill="#d8efff" font-family="sans-serif" font-size="22" letter-spacing="6" opacity=".78">CELLULAR ARENA</text>
+</svg>
