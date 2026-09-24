@@ -6,10 +6,11 @@ ConwaysCreatures es un juego de cartas coleccionables para dos jugadores basado 
 La colección incluye vidas estables, naves espaciales, osciladores, metuselás, cañones y trenes de puffers. Cada carta muestra el patrón de la criatura, los colores de los equipos, su categoría y su código QR.
 
 ## Cómo jugar
-Primero, abre el [sitio web](https://amjp.psy-k.org/ConwaysCreatures/qr.html) en tu teléfono. Estas son todas las cartas: ábrelas en la pantalla de tu PC desde [aquí](https://amjp.psy-k.org/ConwaysCreatures/images/cards/) y escanéalas con el botón situado en la esquina superior izquierda de la aplicación web.
-
-Después de escanear un número par de cartas, pulsa el botón situado a la derecha del botón de escaneo para colocar las cartas del jugador uno y del jugador dos en el campo.
-
-A continuación, pulsa el botón de la esquina inferior derecha, debajo del campo, después de colocar todas las criaturas. Se te preguntará cuántos segundos quieres que dure la ronda. Introduce el tiempo, pulsa «Aceptar» y el juego se desarrollará automáticamente.
-
-Al final, el resultado de la partida aparecerá en la esquina inferior izquierda de la pantalla.
+1. Abre la [aplicación web de ConwaysCreatures](https://amjp.psy-k.org/ConwaysCreatures/qr.html) en tu teléfono.
+2. En un ordenador, abre la [colección de cartas](https://amjp.psy-k.org/ConwaysCreatures/images/cards/). Mantén las cartas en la pantalla del ordenador para escanearlas con el teléfono.
+3. En la aplicación web, pulsa el botón de escaneo situado en la parte superior izquierda y escanea un número par de cartas. Las cartas se asignan alternativamente a los equipos azul y rojo.
+4. Pulsa el botón para colocar criaturas en el campo. Toca una posición vacía de la cuadrícula para colocar la criatura actual. Continúa hasta colocar todas las cartas escaneadas.
+5. Usa el botón de rotación para girar la criatura actual antes de colocarla.
+6. Pulsa el botón de inicio de batalla situado debajo del campo. Introduce la duración en segundos; el valor predeterminado es 60 segundos.
+7. Las criaturas evolucionarán automáticamente según las reglas del Juego de la Vida de Conway. La batalla termina cuando se acaba el tiempo, el tablero queda vacío o permanece sin cambios durante varios fotogramas.
+8. El diálogo final y el área de estado muestran quién ganó y cuántas células azules y rojas quedan.
