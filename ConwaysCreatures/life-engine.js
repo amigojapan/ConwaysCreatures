@@ -2,6 +2,7 @@
 var LifeEngine = (() => {
     const key = (x, y) => x + ',' + y;
     const coordinates = value => value.split(',').map(Number);
+    const teams = ['blue', 'red', 'yellow', 'green'];
 
     function decodeRLE(rle) {
         let x = 0, y = 0;
@@ -20,7 +21,8 @@ var LifeEngine = (() => {
         const counts = new Map();
         for (const [position, team] of board) {
             const [x, y] = coordinates(position);
-            const increment = team === 'blue' ? 17 : 1;
+            // One nibble for total neighbors and one per team (at most eight each).
+            const increment = 1 + (1 << (4 * (teams.indexOf(team) + 1)));
             for (let dy = -1; dy <= 1; dy++) {
                 for (let dx = -1; dx <= 1; dx++) {
                     if (!dx && !dy) continue;
@@ -34,7 +36,15 @@ var LifeEngine = (() => {
             const neighbors = packed & 15;
             const team = board.get(position);
             if (team && (neighbors === 2 || neighbors === 3)) next.set(position, team);
-            else if (!team && neighbors === 3) next.set(position, (packed >> 4) >= 2 ? 'blue' : 'red');
+            else if (!team && neighbors === 3) {
+                const majority = teams.find((_, i) => ((packed >> (4 * (i + 1))) & 15) >= 2);
+                if (majority) { next.set(position, majority); continue; }
+                // Three different parents: choose a present color deterministically,
+                // varying by position so no one color always wins tied births.
+                const parents = teams.filter((_, i) => ((packed >> (4 * (i + 1))) & 15) > 0);
+                const [x, y] = coordinates(position);
+                next.set(position, parents[((x % 3 + y % 3) % 3 + 3) % 3]);
+            }
         }
         return next;
     }

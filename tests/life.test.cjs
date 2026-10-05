@@ -182,7 +182,7 @@ test('real-time startup defaults to 30 crystals and 60 seconds, validates input,
     const g = game();
     g.addCard('glider');
     g.prompt = (question, fallback) => {
-        assert.equal(fallback, question.includes('EACH player') ? '30' : '60');
+        assert.equal(fallback, question.includes('How many players') ? '2' : question.includes('EACH player') ? '30' : '60');
         return fallback;
     };
     g.initRealtimeBattle();
@@ -198,7 +198,7 @@ test('real-time startup defaults to 30 crystals and 60 seconds, validates input,
     g.showMainMenu();
     assert.equal(g.timers.has(g.battleTimerHandle), false);
     for (const answer of [null, '', ' ', '-1', '1.5', 'abc', 'Infinity', '9007199254740992']) {
-        g.prompt = () => answer;
+        g.prompt = (question, fallback) => question.includes('EACH player') ? answer : fallback;
         g.initRealtimeBattle();
         assert.equal(g.battleInProgress, false, String(answer));
         assert.equal(g.document.getElementById('mainMenu').style.display, 'flex');
@@ -217,7 +217,7 @@ test('real-time cards cost live cells, overwrite teams, preserve gaps, and can b
     g.addCard('glider');
     g.addCard('glider');
     g.addCard('gosper-glider-gun');
-    g.prompt = () => '15';
+    g.prompt = (question, fallback) => question.includes('EACH player') ? '15' : fallback;
     g.initRealtimeBattle();
     g.openDeploymentPicker();
     g.chooseDeploymentTeam('blue');
@@ -271,7 +271,7 @@ test('real-time cards cost live cells, overwrite teams, preserve gaps, and can b
 test('slower double-taps pause selection and placement; deploying resumes evolution', () => {
     const g = game();
     g.addCard('blinker');
-    g.prompt = () => '100';
+    g.prompt = (question, fallback) => question.includes('EACH player') ? '100' : fallback;
     g.initRealtimeBattle();
     const canvas = g.document.getElementById('lifeCanvas');
     const dialog = g.document.getElementById('deploymentPicker');
@@ -389,7 +389,7 @@ test('cancel and Escape resume without spending; slow unrelated taps and draggin
 test('stable boards continue in real time and crystals reset for each new game', () => {
     const g = game();
     g.addCard('block');
-    g.prompt = () => '4';
+    g.prompt = (question, fallback) => question.includes('EACH player') ? '4' : fallback;
     g.initRealtimeBattle();
     g.chooseDeploymentTeam('blue');
     g.selectDeploymentCard('block');
@@ -440,7 +440,7 @@ test('custom match duration accepts positive seconds and cancellation or invalid
     const g = game();
     g.addCard('block');
     for (const answer of [null, '', ' ', '0', '-1', 'abc', 'Infinity', '1e308']) {
-        g.prompt = (question, fallback) => question.includes('EACH player') ? fallback : answer;
+        g.prompt = (question, fallback) => question.includes('Match duration') ? answer : fallback;
         g.initRealtimeBattle();
         assert.equal(g.battleInProgress, false, String(answer));
         assert.equal(g.crystals.blue, 30);
@@ -449,12 +449,13 @@ test('custom match duration accepts positive seconds and cancellation or invalid
     const prompts = [];
     g.prompt = (question, fallback) => {
         prompts.push([question, fallback]);
-        return question.includes('EACH player') ? '37' : '2.5';
+        return question.includes('How many players') ? fallback : question.includes('EACH player') ? '37' : '2.5';
     };
     g.initRealtimeBattle();
-    assert.equal(prompts.length, 2);
-    assert.equal(prompts[0][1], '30');
-    assert.equal(prompts[1][1], '60');
+    assert.equal(prompts.length, 3);
+    assert.equal(prompts[0][1], '2');
+    assert.equal(prompts[1][1], '30');
+    assert.equal(prompts[2][1], '60');
     assert.equal(g.crystals.blue, 37);
     assert.equal(g.crystals.red, 37);
     assert.equal(g.battleDurationMs, 2500);
@@ -588,13 +589,13 @@ test('separate decks require both players to scan and restrict selection and dep
     g.prompt = (_question, fallback) => { prompts++; return fallback; };
     g.initRealtimeBattle(true);
     assert.equal(g.battleInProgress, false);
-    assert.equal(prompts, 0);
+    assert.equal(prompts, 1);
     assert.match(g.document.getElementById('result').innerText, /at least one card for each team/);
     g.addCard('block');
     g.addCard('blinker');
     g.addCard('beehive');
     g.initRealtimeBattle(true);
-    assert.equal(prompts, 2);
+    assert.equal(prompts, 4);
     assert.equal(g.separateDecks, true);
     assert.equal(g.crystals.blue, 30);
     assert.equal(g.crystals.red, 30);
@@ -768,4 +769,199 @@ test('pinch cancellation and additional fingers do not create taps; pinch respec
     assert.equal(g.board.size, 4);
     g.showMainMenu();
     assert.equal(g.battlefieldPointers.size, 0);
+});
+
+const allTeams = ['blue', 'red', 'yellow', 'green'];
+const gameStarts = [g => g.initBattle(), g => g.initRealtimeBattle(), g => g.initRealtimeBattle(true)];
+function usePlayers(g, count) {
+    g.prompt = (question, fallback) => question.includes('How many players') ? String(count) : fallback;
+}
+
+test('every game start asks once for 1–4 players, defaults to two, and rejects invalid counts or cancellation', () => {
+    for (const start of gameStarts) {
+        const g = game();
+        for (let i = 0; i < 4; i++) g.addCard('block');
+        const before = Array.from(g.p1deck, card => card.team);
+        for (const answer of [null, '', ' ', '0', '-1', '1.5', '5', 'abc', 'Infinity']) {
+            g.prompt = (question, fallback) => {
+                assert.match(question, /How many players/);
+                assert.equal(fallback, '2');
+                return answer;
+            };
+            start(g);
+            assert.equal(g.battleInProgress, false);
+            assert.equal(g.menuVisible, true);
+            assert.equal(g.playerCount, 2);
+            assert.deepEqual(Array.from(g.p1deck, card => card.team), before);
+        }
+        let countPrompts = 0;
+        g.prompt = (question, fallback) => {
+            if (question.includes('How many players')) { countPrompts++; assert.equal(fallback, '2'); }
+            return fallback;
+        };
+        start(g);
+        assert.equal(countPrompts, 1);
+        assert.equal(g.playerCount, 2);
+        assert.equal(g.menuVisible, false);
+    }
+});
+
+test('classic placement cycles through every selected player, including solo, and scans update when counts change', () => {
+    const g = game();
+    for (let i = 0; i < 8; i++) g.addCard('block');
+    for (const count of [4, 3, 1, 2]) {
+        usePlayers(g, count);
+        g.initBattle();
+        for (let i = 0; i < 8; i++) {
+            const team = allTeams[i % count];
+            assert.equal(g.p1deck[i].team, team);
+            assert.equal(g.currentTeam, team);
+            assert.equal(g.document.getElementById('cards').children[i].className, 'deck-card owned-' + team);
+            assert.equal(g.placeSelectedCreature(i*10, 0), true);
+            assert.equal(g.board.get(`${i*10},0`), team);
+        }
+        assert.equal(g.currentSelectedCreture, null);
+        assert.equal(g.nextScanTeam(), allTeams[8 % count]);
+        g.startBattle();
+        assert.equal(g.battleInProgress, true);
+        for (const team of allTeams.slice(0, count)) assert.match(g.document.getElementById('result').innerText, new RegExp(g.teamName(team)));
+        g.showMainMenu();
+    }
+    usePlayers(g, 3);
+    g.initBattle();
+    g.showMainMenu();
+    g.addCard('blinker');
+    assert.equal(g.p1deck[8].team, 'yellow');
+    assert.match(g.document.getElementById('cards').children[8].textContent, /^Yellow:/);
+    assert.equal(g.nextScanTeam(), 'blue');
+});
+
+test('both real-time modes give each selected player crystals, deployment, ownership, and scores', () => {
+    for (const ownCardsOnly of [false, true]) for (const count of [1, 2, 3, 4]) {
+        const g = game();
+        const ids = ['block', 'blinker', 'glider', 'beehive'];
+        ids.forEach(id => g.addCard(id));
+        usePlayers(g, count);
+        g.initRealtimeBattle(ownCardsOnly);
+        assert.equal(g.battleInProgress, true);
+        assert.deepEqual(Object.keys(g.crystals), allTeams.slice(0, count));
+        g.openDeploymentPicker();
+        assert.deepEqual(g.document.getElementById('deploymentTeams').children.map(button => button.className), allTeams.slice(0, count).map(team => 'team-' + team));
+        for (let i = 0; i < count; i++) {
+            const team = allTeams[i];
+            g.openDeploymentPicker();
+            g.chooseDeploymentTeam(team);
+            assert.equal(g.selectDeploymentCard(ids[i]), true);
+            assert.equal(g.placeSelectedCreature(i*20, 0), true);
+            assert.equal(g.board.get(`${i*20 + g.getCreatureByName(ids[i]).cells[0][0]},${g.getCreatureByName(ids[i]).cells[0][1]}`), team);
+            assert.equal(g.crystals[team], 30-g.getCreatureByName(ids[i]).population);
+            if (ownCardsOnly && count > 1) assert.equal(g.teamCanUseCard(team, ids[(i+1) % count]), false);
+        }
+        if (count < 4) {
+            const current = g.currentTeam;
+            g.chooseDeploymentTeam(allTeams[count]);
+            assert.equal(g.currentTeam, current);
+            assert.equal(g.teamCanUseCard(allTeams[count], 'block'), false);
+        }
+        g.elapse(60000);
+        g.runTimer(g.battleTimerHandle);
+        assert.equal(g.battleInProgress, false);
+        for (const team of allTeams.slice(0, count)) assert.match(g.alerts.at(-1), new RegExp(g.teamName(team) + ':'));
+        if (count === 1) assert.match(g.alerts.at(-1), /Solo game complete!/);
+        g.showMainMenu();
+        usePlayers(g, 2);
+        g.initRealtimeBattle(ownCardsOnly);
+        assert.deepEqual({...g.crystals}, {blue: 30, red: 30});
+        assert.equal(g.board.size, 0);
+    }
+});
+
+test('separate decks require cards for all selected players and allow scanning missing cards after choosing four', () => {
+    const g = game();
+    g.addCard('block');
+    usePlayers(g, 4);
+    g.initRealtimeBattle(true);
+    assert.equal(g.battleInProgress, false);
+    assert.equal(g.nextScanTeam(), 'red');
+    assert.match(g.document.getElementById('result').innerText, /each team.*Blue, Red, Yellow, Green/);
+    for (let i = 0; i < 3; i++) g.addCard('block');
+    g.initRealtimeBattle(true);
+    assert.equal(g.battleInProgress, true);
+    for (const team of allTeams) assert.equal(g.getDeploymentCards(team).length, 1);
+});
+
+test('four-player elimination continues with two survivors and ends with the final survivor or no survivors', () => {
+    const g = game();
+    g.addCard('block');
+    usePlayers(g, 4);
+    g.initRealtimeBattle();
+    g.crystals.blue = g.crystals.red = 0;
+    assert.equal(g.checkRealtimeBattleEnd(), false);
+    g.crystals.yellow = 0;
+    assert.equal(g.checkRealtimeBattleEnd(), true);
+    assert.match(g.alerts.at(-1), /Green team wins!.*Blue, Red, Yellow are eliminated/);
+    g.showMainMenu();
+    g.initRealtimeBattle();
+    for (const team of allTeams) g.crystals[team] = 0;
+    assert.equal(g.checkRealtimeBattleEnd(), true);
+    assert.match(g.alerts.at(-1), /Tie game!.*No player has/);
+    g.showMainMenu();
+    usePlayers(g, 1);
+    g.initRealtimeBattle();
+    assert.equal(g.battleInProgress, true);
+    g.crystals.blue = 0;
+    assert.equal(g.checkRealtimeBattleEnd(), true);
+    assert.match(g.alerts.at(-1), /Solo game complete! Blue: 0/);
+});
+
+test('scoring finds any winning color and only draws for ties at the highest score', () => {
+    for (const start of [gameStarts[0], gameStarts[1]]) {
+        const g = game();
+        g.addCard('block');
+        usePlayers(g, 4);
+        start(g);
+        for (const scores of [[0,0,8,4], [0,0,4,8], [1,1,4,4], [1,1,1,1]]) {
+            g.board.clear();
+            scores.forEach((count, index) => {
+                for (let i = 0; i < count; i++) g.board.set(`${i},${index*10}`, allTeams[index]);
+            });
+            g.battleInProgress = true;
+            g.finishBattle();
+            assert.match(g.alerts.at(-1), scores[2] === scores[3] ? /Tie game!/ : scores[2] > scores[3] ? /Yellow team wins!/ : /Green team wins!/);
+        }
+    }
+});
+
+test('all four colors survive and inherit majority births; three-color ties use a present color independent of insertion order', () => {
+    for (const a of allTeams) for (const b of allTeams) for (const c of allTeams) {
+        for (const x of [-3,-2,-1,0,1,2]) {
+            const entries = [[`${x-1},-1`, a], [`${x},-1`, b], [`${x+1},-1`, c]];
+            const next = Life.step(new Map(entries));
+            const born = next.get(`${x},0`);
+            const majority = [a,b,c].find(team => [a,b,c].filter(value => value === team).length >= 2);
+            if (majority) assert.equal(born, majority);
+            else assert.ok([a,b,c].includes(born));
+            assert.equal(born, Life.step(new Map(entries.reverse())).get(`${x},0`));
+            assert.equal(next.get(`${x},-1`), b, 'Survivors retain their own color');
+        }
+    }
+    for (const team of allTeams) {
+        const board = new Map();
+        Life.place(board, pattern([[0,0],[1,0],[0,1],[1,1]]), 0, 0, team);
+        assert.equal(Life.same(board, Life.step(board)), true);
+    }
+});
+
+test('battlefield renders players three and four in yellow and green', () => {
+    const g = game();
+    g.addCard('block');
+    usePlayers(g, 4);
+    g.initRealtimeBattle();
+    const fills = [];
+    const ctx = {fillRect(){ fills.push(this.fillStyle); }, beginPath(){}, moveTo(){}, lineTo(){}, stroke(){}};
+    g.canvas.getContext = () => ctx;
+    g.view = {left: 0, top: 0, scale: 10};
+    allTeams.forEach((team, i) => g.board.set(`${i},0`, team));
+    g.drawBattlefield();
+    assert.deepEqual(fills.slice(1), ['#38bdf8', '#fb7185', '#facc15', '#4ade80']);
 });

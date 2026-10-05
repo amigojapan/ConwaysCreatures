@@ -6,6 +6,11 @@ const resultDiv = document.getElementById('result');
 const video = document.getElementById('video');
 const cancelScanBtn = document.getElementById('cancelScan');
 const cards = document.getElementById('cards');
+const playerTeams = ['blue', 'red', 'yellow', 'green'];
+const teamColors = {blue: '#38bdf8', red: '#fb7185', yellow: '#facc15', green: '#4ade80'};
+var playerCount = 2;
+function activeTeams() { return playerTeams.slice(0, playerCount); }
+function teamName(team) { return team[0].toUpperCase() + team.slice(1); }
 var p1deck = [];
 var currentCardNumber = 0;
 var currentTeam = 'blue';
@@ -110,27 +115,46 @@ function addCard(rawName) {
     const row = document.createElement('button');
     row.type = 'button';
     row.className = 'deck-card owned-' + team;
-    row.textContent = `${team === 'blue' ? 'Blue' : 'Red'}: ` + creatures[id].name + ' · ' + creatures[id].population.toLocaleString() + ' cells · Preview';
+    row.textContent = `${teamName(team)}: ` + creatures[id].name + ' · ' + creatures[id].population.toLocaleString() + ' cells · Preview';
     row.addEventListener('click', () => selectMenuPreview(id));
     cards.appendChild(row);
     selectMenuPreview(id);
     updateScanTurn();
-    resultDiv.innerText = `${creatures[id].name} added for ${team === 'blue' ? 'Blue' : 'Red'}. ${nextScanTeam() === 'blue' ? 'Blue' : 'Red'} scans next.`;
+    resultDiv.innerText = `${creatures[id].name} added for ${teamName(team)}. ${teamName(nextScanTeam())} scans next.`;
     return true;
 }
 
-function nextScanTeam() { return p1deck.length % 2 === 0 ? 'blue' : 'red'; }
+function nextScanTeam() { return activeTeams()[p1deck.length % playerCount]; }
+
+function promptPlayerCount() {
+    const answer = prompt('How many players? (1–4: Blue, Red, Yellow, Green). Cards are assigned in scan order.', '2');
+    if (answer === null) return false;
+    const count = Number(answer);
+    if (!answer.trim() || !Number.isInteger(count) || count < 1 || count > 4) {
+        resultDiv.innerText = 'Enter a whole number of players from 1 to 4, then start again.';
+        return false;
+    }
+    playerCount = count;
+    // Scans may happen before the game mode and player count are chosen.
+    p1deck.forEach((card, index) => {
+        card.team = activeTeams()[index % playerCount];
+        const row = cards.children[index];
+        row.className = 'deck-card owned-' + card.team;
+        row.textContent = `${teamName(card.team)}: ${creatures[card.creatureName].name} · ${creatures[card.creatureName].population.toLocaleString()} cells · Preview`;
+    });
+    updateScanTurn();
+    return true;
+}
 
 function updateScanTurn() {
-    const blue = p1deck.filter(card => card.team === 'blue').length;
-    const red = p1deck.filter(card => card.team === 'red').length;
+    const counts = activeTeams().map(team => `${teamName(team)}: ${p1deck.filter(card => card.team === team).length} cards`).join(' / ');
     document.getElementById('scanTurn').textContent =
-        `Next scan: ${nextScanTeam() === 'blue' ? 'Blue' : 'Red'} · Blue: ${blue} cards / Red: ${red} cards`;
-    document.getElementById('scanCardButton').textContent = `Add card — ${nextScanTeam() === 'blue' ? 'Blue' : 'Red'}'s turn`;
+        `Next scan: ${teamName(nextScanTeam())} · ${counts}`;
+    document.getElementById('scanCardButton').textContent = `Add card — ${teamName(nextScanTeam())}'s turn`;
 }
 
 function getDeploymentCards(team) {
-    if (!['blue', 'red'].includes(team)) return [];
+    if (!activeTeams().includes(team)) return [];
     return separateDecks ? p1deck.filter(card => card.team === team) : p1deck;
 }
 
@@ -320,12 +344,12 @@ function drawBattlefield() {
         ctx.fillRect(px, py, Math.max(1, view.scale - (view.scale >= 5 ? 1 : 0)),
             Math.max(1, view.scale - (view.scale >= 5 ? 1 : 0)));
     };
-    for (const team of ['blue', 'red']) {
-        ctx.fillStyle = team === 'blue' ? '#38bdf8' : '#fb7185';
+    for (const team of activeTeams()) {
+        ctx.fillStyle = teamColors[team];
         for (const [key, color] of board) if (color === team) drawCell(...LifeEngine.coordinates(key));
     }
     if (canDeploySelectedCreature()) {
-        ctx.fillStyle = '#86efac';
+        ctx.fillStyle = teamColors[currentTeam];
         ctx.globalAlpha = .6;
         for (const [x, y] of currentSelectedCreture.cells) drawCell(x + placement.x, y + placement.y);
         ctx.globalAlpha = 1;
@@ -339,7 +363,7 @@ function updatePlacementStatus() {
         return;
     }
     const p = currentSelectedCreture;
-    resultDiv.innerText = `${currentTeam === 'blue' ? 'Blue' : 'Red'}: ${p.name} (${p.width} × ${p.height}). Tap to place, or use Place for the green preview. Drag to pan.`;
+    resultDiv.innerText = `${teamName(currentTeam)}: ${p.name} (${p.width} × ${p.height}). Tap to place, or use Place for the translucent preview. Drag to pan.`;
 }
 
 function placeConwaysCreatures() {
@@ -363,7 +387,7 @@ function placeSelectedCreature(x = placement.x, y = placement.y) {
         return false;
     }
     currentCardNumber++;
-    currentTeam = currentTeam === 'blue' ? 'red' : 'blue';
+    currentTeam = activeTeams()[currentCardNumber % playerCount];
     placeConwaysCreatures();
     return true;
 }
@@ -376,8 +400,9 @@ function rotateCreture() {
     fitBattlefield();
 }
 
-function initBattle(mode = 'classic', ownCardsOnly = false) {
+function initBattle(mode = 'classic', ownCardsOnly = false, playersConfigured = false) {
     if (!ensureCreatureDeckLoaded()) return;
+    if (!playersConfigured && !promptPlayerCount()) return;
     if (!p1deck.length) { resultDiv.innerText = 'Add at least one card first.'; return; }
     stopCameraStream();
     stopMenuPreview();
@@ -498,10 +523,10 @@ function initBattle(mode = 'classic', ownCardsOnly = false) {
 }
 
 function initRealtimeBattle(ownCardsOnly = false) {
-    if (!ensureCreatureDeckLoaded()) return;
+    if (!ensureCreatureDeckLoaded() || !promptPlayerCount()) return;
     if (!p1deck.length) { resultDiv.innerText = 'Add at least one card first.'; return; }
-    if (ownCardsOnly && !['blue', 'red'].every(team => p1deck.some(card => card.team === team))) {
-        resultDiv.innerText = 'Scan at least one card for each team before starting separate decks. Blue scans first, then Red.';
+    if (ownCardsOnly && !activeTeams().every(team => p1deck.some(card => card.team === team))) {
+        resultDiv.innerText = `Scan at least one card for each team before starting separate decks. Scan order: ${activeTeams().map(teamName).join(', ')}.`;
         return;
     }
     const answer = prompt('Starting crystals for EACH player (1 crystal per live cell):', '30');
@@ -520,8 +545,8 @@ function initRealtimeBattle(ownCardsOnly = false) {
         return;
     }
     battleDurationMs = seconds*1000;
-    crystals = {blue: amount, red: amount};
-    initBattle('realtime', ownCardsOnly);
+    crystals = Object.fromEntries(activeTeams().map(team => [team, amount]));
+    initBattle('realtime', ownCardsOnly, true);
 }
 
 function updateRealtimeClock() {
@@ -545,12 +570,13 @@ function checkRealtimeBattleEnd() {
         return true;
     }
     const canAfford = team => getDeploymentCards(team).some(card => creatures[card.creatureName].population <= crystals[team]);
-    const blueOut = getCellCount('blue') === 0 && !canAfford('blue');
-    const redOut = getCellCount('red') === 0 && !canAfford('red');
-    if (!blueOut && !redOut) return false;
-    const reason = blueOut && redOut ? 'Neither team has live cells or enough crystals for another card.' :
-        `${blueOut ? 'Blue' : 'Red'} is eliminated: no live cells and not enough crystals for another card.`;
-    finishBattle(reason, blueOut && redOut ? 'draw' : blueOut ? 'red' : 'blue');
+    const remaining = activeTeams().filter(team => getCellCount(team) > 0 || canAfford(team));
+    if (remaining.length > 1 || (playerCount === 1 && remaining.length === 1)) return false;
+    const eliminated = activeTeams().filter(team => !remaining.includes(team));
+    const reason = !remaining.length ?
+        `${playerCount === 2 ? 'Neither team has' : 'No player has'} live cells or enough crystals for another card.` :
+        `${eliminated.map(teamName).join(', ')} ${eliminated.length === 1 ? 'is' : 'are'} eliminated: no live cells and not enough crystals for another card.`;
+    finishBattle(reason, remaining[0] || 'draw');
     return true;
 }
 
@@ -589,11 +615,11 @@ function openDeploymentPicker() {
     const teams = document.getElementById('deploymentTeams');
     teams.replaceChildren();
     document.getElementById('deploymentCards').replaceChildren();
-    document.getElementById('deploymentHint').textContent = 'First choose Blue or Red, then choose a card.';
-    for (const team of ['blue', 'red']) {
+    document.getElementById('deploymentHint').textContent = `First choose a team (${activeTeams().map(teamName).join(', ')}), then choose a card.`;
+    for (const team of activeTeams()) {
         const button = document.createElement('button');
         button.className = 'team-' + team;
-        button.textContent = `${team === 'blue' ? 'Blue' : 'Red'} · ${crystals[team].toLocaleString()} crystals`;
+        button.textContent = `${teamName(team)} · ${crystals[team].toLocaleString()} crystals`;
         button.addEventListener('click', () => chooseDeploymentTeam(team));
         teams.appendChild(button);
     }
@@ -604,13 +630,13 @@ function openDeploymentPicker() {
 }
 
 function chooseDeploymentTeam(team) {
-    if (gameMode !== 'realtime' || !battleInProgress || !['blue', 'red'].includes(team)) return;
+    if (gameMode !== 'realtime' || !battleInProgress || !activeTeams().includes(team)) return;
     currentTeam = team;
     currentSelectedCreture = null;
     const list = document.getElementById('deploymentCards');
     list.replaceChildren();
     document.getElementById('deploymentHint').textContent =
-        `${team === 'blue' ? 'Blue' : 'Red'} has ${crystals[team].toLocaleString()} crystals. ` +
+        `${teamName(team)} has ${crystals[team].toLocaleString()} crystals. ` +
         (separateDecks ? 'Only this team’s scanned cards are available. ' : '') +
         'Cards can be reused; dimmed cards cost too much.';
     for (const id of new Set(getDeploymentCards(team).map(card => card.creatureName))) {
@@ -659,16 +685,18 @@ function deployRealtimeCreature(x, y) {
 }
 
 function updateBattleStatus() {
+    const liveScores = activeTeams().map(team => `${teamName(team)}: ${getCellCount(team).toLocaleString()}`).join(' / ');
     if (gameMode === 'realtime') {
         const pending = currentSelectedCreture;
-        resultDiv.innerText = `${Math.ceil(realtimeRemainingMs/1000)}s left · Crystals — Blue: ${crystals.blue.toLocaleString()} · Red: ${crystals.red.toLocaleString()}\n` +
-            `${deploymentPaused ? 'Paused · ' : ''}Generation ${generation} · Live cells — Blue: ${getCellCount('blue').toLocaleString()} / Red: ${getCellCount('red').toLocaleString()}\n` +
-            (pending ? `${currentTeam === 'blue' ? 'Blue' : 'Red'}: ${pending.name} (${pending.cells.length.toLocaleString()} crystals). Tap to deploy, or Place the green preview.` :
+        const balances = activeTeams().map(team => `${teamName(team)}: ${crystals[team].toLocaleString()}`).join(' · ');
+        resultDiv.innerText = `${Math.ceil(realtimeRemainingMs/1000)}s left · Crystals — ${balances}\n` +
+            `${deploymentPaused ? 'Paused · ' : ''}Generation ${generation} · Live cells — ${liveScores}\n` +
+            (pending ? `${teamName(currentTeam)}: ${pending.name} (${pending.cells.length.toLocaleString()} crystals). Tap to deploy, or Place the translucent preview.` :
                 'Double-tap or press Deploy to choose a team and card. Drag to pan; pinch to zoom.');
         return;
     }
     const seconds = Math.max(0, Math.ceil((battleStartedAt + battleDurationMs - Date.now())/1000));
-    resultDiv.innerText = `Generation ${generation} · ${seconds}s left · Blue ${getCellCount('blue').toLocaleString()} / Red ${getCellCount('red').toLocaleString()}`;
+    resultDiv.innerText = `Generation ${generation} · ${seconds}s left · ${liveScores}`;
 }
 
 function finishBattle(reason = '', winner = null) {
@@ -678,10 +706,14 @@ function finishBattle(reason = '', winner = null) {
     currentSelectedCreture = null;
     closeDeploymentPicker();
     requestRender();
-    const blue = getCellCount('blue'), red = getCellCount('red');
-    winner = winner || (blue === red ? 'draw' : blue > red ? 'blue' : 'red');
+    const scores = activeTeams().map(team => [team, getCellCount(team)]);
+    const highScore = Math.max(...scores.map(([, count]) => count));
+    const leaders = scores.filter(([, count]) => count === highScore);
+    winner = winner || (leaders.length === 1 ? leaders[0][0] : 'draw');
+    const outcome = playerCount === 1 ? 'Solo game complete!' :
+        winner === 'draw' ? 'Tie game!' : `${teamName(winner)} team wins!`;
     resultDiv.innerText = 'Game over. Press Menu to start another match.';
-    alert(`${winner === 'draw' ? 'Tie game!' : winner === 'blue' ? 'Blue team wins!' : 'Red team wins!'} Blue: ${blue}; Red: ${red}. ${reason}`);
+    alert(`${outcome} ${scores.map(([team, count]) => `${teamName(team)}: ${count}`).join('; ')}. ${reason}`);
 }
 
 function startBattle() {
@@ -721,7 +753,7 @@ function scanQR() {
     stopCameraStream();
     const session = scanSession;
     showScanner();
-    const scanningTeam = nextScanTeam() === 'blue' ? 'Blue' : 'Red';
+    const scanningTeam = teamName(nextScanTeam());
     resultDiv.innerText = `${scanningTeam}'s turn. Starting camera…`;
     const detector = new BarcodeDetector({formats: ['qr_code']});
     navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}}).then(async stream => {
