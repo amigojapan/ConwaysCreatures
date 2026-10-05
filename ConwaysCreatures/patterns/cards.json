@@ -1,0 +1,774 @@
+{
+  "20-cell-quadratic-growth": {
+    "pattern": "20-cell-quadratic-growth",
+    "variant": 0
+  },
+  "lwss-breeder": {
+    "pattern": "lwss-breeder",
+    "variant": 0
+  },
+  "p-6-166": {
+    "pattern": "p-6-166",
+    "variant": 0
+  },
+  "c4-diag-switch-engines": {
+    "pattern": "c4-diag-switch-engines",
+    "variant": 0
+  },
+  "one-cell-thick-quadratic-growth-2596x1": {
+    "pattern": "one-cell-thick-quadratic-growth-2596x1",
+    "variant": 0
+  },
+  "p100-h-channel-breeder": {
+    "pattern": "p100-h-channel-breeder",
+    "variant": 0
+  },
+  "p90-rake-factory": {
+    "pattern": "p90-rake-factory",
+    "variant": 0
+  },
+  "pi-blink-breeder1": {
+    "pattern": "pi-blink-breeder1",
+    "variant": 0
+  },
+  "pi-blink-breeder2": {
+    "pattern": "pi-blink-breeder2",
+    "variant": 0
+  },
+  "quartermax": {
+    "pattern": "quartermax",
+    "variant": 0
+  },
+  "rake-breeder": {
+    "pattern": "rake-breeder",
+    "variant": 0
+  },
+  "slide-breeder": {
+    "pattern": "slide-breeder",
+    "variant": 0
+  },
+  "spacefiller": {
+    "pattern": "spacefiller",
+    "variant": 0
+  },
+  "switch-engine-breeder-mr": {
+    "pattern": "switch-engine-breeder-mr",
+    "variant": 0
+  },
+  "switch-engine-breeder": {
+    "pattern": "switch-engine-breeder",
+    "variant": 0
+  },
+  "switch-engine-ping-pong": {
+    "pattern": "switch-engine-ping-pong",
+    "variant": 0
+  },
+  "2c5-spaceship-gun-p416": {
+    "pattern": "2c5-spaceship-gun-p416",
+    "variant": 0
+  },
+  "2c5-spaceship-gun-p690": {
+    "pattern": "2c5-spaceship-gun-p690",
+    "variant": 0
+  },
+  "7-in-a-row-cordership-v-gun": {
+    "pattern": "7-in-a-row-cordership-v-gun",
+    "variant": 0
+  },
+  "cordership-gun-p784": {
+    "pattern": "cordership-gun-p784",
+    "variant": 0
+  },
+  "golly-ticker": {
+    "pattern": "golly-ticker",
+    "variant": 0
+  },
+  "gun-p165mwss": {
+    "pattern": "gun-p165mwss",
+    "variant": 0
+  },
+  "infinite-corderships-gun": {
+    "pattern": "infinite-corderships-gun",
+    "variant": 0
+  },
+  "loafer-gun-p210": {
+    "pattern": "loafer-gun-p210",
+    "variant": 0
+  },
+  "p148-b29-gun": {
+    "pattern": "p148-b29-gun",
+    "variant": 0
+  },
+  "p59-gun-with-snark-reflectors": {
+    "pattern": "p59-gun-with-snark-reflectors",
+    "variant": 0
+  },
+  "p690-pt-cordership-gun": {
+    "pattern": "p690-pt-cordership-gun",
+    "variant": 0
+  },
+  "period-52-glider-gun": {
+    "pattern": "period-52-glider-gun",
+    "variant": 0
+  },
+  "pseudo-p34-gun": {
+    "pattern": "pseudo-p34-gun",
+    "variant": 0
+  },
+  "vacuum-cleaner": {
+    "pattern": "vacuum-cleaner",
+    "variant": 0
+  },
+  "52513m": {
+    "pattern": "52513m",
+    "variant": 0
+  },
+  "acorn": {
+    "pattern": "acorn",
+    "variant": 0
+  },
+  "ark1": {
+    "pattern": "ark1",
+    "variant": 0
+  },
+  "ark2": {
+    "pattern": "ark2",
+    "variant": 0
+  },
+  "blom": {
+    "pattern": "blom",
+    "variant": 0
+  },
+  "die-1120271": {
+    "pattern": "die-1120271",
+    "variant": 0
+  },
+  "iwona": {
+    "pattern": "iwona",
+    "variant": 0
+  },
+  "justyna": {
+    "pattern": "justyna",
+    "variant": 0
+  },
+  "lidka-predecessor": {
+    "pattern": "lidka-predecessor",
+    "variant": 0
+  },
+  "natural-lwss": {
+    "pattern": "natural-lwss",
+    "variant": 0
+  },
+  "rabbits-relation-17423": {
+    "pattern": "rabbits-relation-17423",
+    "variant": 0
+  },
+  "rabbits-relation-17465": {
+    "pattern": "rabbits-relation-17465",
+    "variant": 0
+  },
+  "rabbits": {
+    "pattern": "rabbits",
+    "variant": 0
+  },
+  "temp-pulsars-big-s": {
+    "pattern": "temp-pulsars-big-s",
+    "variant": 0
+  },
+  "blockstacker": {
+    "pattern": "blockstacker",
+    "variant": 0
+  },
+  "cambrian-explosion": {
+    "pattern": "cambrian-explosion",
+    "variant": 0
+  },
+  "conga-line-switch-engine-extender": {
+    "pattern": "conga-line-switch-engine-extender",
+    "variant": 0
+  },
+  "diagfuse1": {
+    "pattern": "diagfuse1",
+    "variant": 0
+  },
+  "die658": {
+    "pattern": "die658",
+    "variant": 0
+  },
+  "elbow-ladders": {
+    "pattern": "elbow-ladders",
+    "variant": 0
+  },
+  "fermat-primes": {
+    "pattern": "fermat-primes",
+    "variant": 0
+  },
+  "four-primers": {
+    "pattern": "four-primers",
+    "variant": 0
+  },
+  "infinity-hotel0": {
+    "pattern": "infinity-hotel0",
+    "variant": 0
+  },
+  "infinity-hotel1": {
+    "pattern": "infinity-hotel1",
+    "variant": 0
+  },
+  "infinity-hotel2": {
+    "pattern": "infinity-hotel2",
+    "variant": 0
+  },
+  "infinity-hotel3": {
+    "pattern": "infinity-hotel3",
+    "variant": 0
+  },
+  "lightspeed": {
+    "pattern": "lightspeed",
+    "variant": 0
+  },
+  "loggrow-corder": {
+    "pattern": "loggrow-corder",
+    "variant": 0
+  },
+  "ordovician-radiation": {
+    "pattern": "ordovician-radiation",
+    "variant": 0
+  },
+  "sawtooth-177": {
+    "pattern": "sawtooth-177",
+    "variant": 0
+  },
+  "three-halves-growth": {
+    "pattern": "three-halves-growth",
+    "variant": 0
+  },
+  "tubstretch-c124b": {
+    "pattern": "tubstretch-c124b",
+    "variant": 0
+  },
+  "twinprimes": {
+    "pattern": "twinprimes",
+    "variant": 0
+  },
+  "wicks-drh-2002": {
+    "pattern": "wicks-drh-2002",
+    "variant": 0
+  },
+  "billiard-table": {
+    "pattern": "billiard-table",
+    "variant": 0
+  },
+  "extensible-low-period": {
+    "pattern": "extensible-low-period",
+    "variant": 0
+  },
+  "glider-stream-crystal": {
+    "pattern": "glider-stream-crystal",
+    "variant": 0
+  },
+  "honey-farm-hasslers": {
+    "pattern": "honey-farm-hasslers",
+    "variant": 0
+  },
+  "low-period": {
+    "pattern": "low-period",
+    "variant": 0
+  },
+  "oscillator-stamp-collection": {
+    "pattern": "oscillator-stamp-collection",
+    "variant": 0
+  },
+  "p103079214841": {
+    "pattern": "p103079214841",
+    "variant": 0
+  },
+  "p138": {
+    "pattern": "p138",
+    "variant": 0
+  },
+  "phase-shift": {
+    "pattern": "phase-shift",
+    "variant": 0
+  },
+  "queen-bee-turn": {
+    "pattern": "queen-bee-turn",
+    "variant": 0
+  },
+  "traffic-light-hasslers": {
+    "pattern": "traffic-light-hasslers",
+    "variant": 0
+  },
+  "unique-high-period": {
+    "pattern": "unique-high-period",
+    "variant": 0
+  },
+  "c4-diagonal-puffer": {
+    "pattern": "c4-diagonal-puffer",
+    "variant": 0
+  },
+  "line-puffer-superstable": {
+    "pattern": "line-puffer-superstable",
+    "variant": 0
+  },
+  "line-puffer-unstable": {
+    "pattern": "line-puffer-unstable",
+    "variant": 0
+  },
+  "millionaire-puffer": {
+    "pattern": "millionaire-puffer",
+    "variant": 0
+  },
+  "p100-h-track-puffer": {
+    "pattern": "p100-h-track-puffer",
+    "variant": 0
+  },
+  "pi-fuse-puffer": {
+    "pattern": "pi-fuse-puffer",
+    "variant": 0
+  },
+  "puffer-2c5": {
+    "pattern": "puffer-2c5",
+    "variant": 0
+  },
+  "puffer-train": {
+    "pattern": "puffer-train",
+    "variant": 0
+  },
+  "zigzag-wickstretcher": {
+    "pattern": "zigzag-wickstretcher",
+    "variant": 0
+  },
+  "2c5-engineless-rake-p185": {
+    "pattern": "2c5-engineless-rake-p185",
+    "variant": 0
+  },
+  "2c5-spaceship-rake-p240": {
+    "pattern": "2c5-spaceship-rake-p240",
+    "variant": 0
+  },
+  "basic-rakes": {
+    "pattern": "basic-rakes",
+    "variant": 0
+  },
+  "c2-cordership-rake": {
+    "pattern": "c2-cordership-rake",
+    "variant": 0
+  },
+  "c3-forward-rake-p159": {
+    "pattern": "c3-forward-rake-p159",
+    "variant": 0
+  },
+  "c4-sideways-rake": {
+    "pattern": "c4-sideways-rake",
+    "variant": 0
+  },
+  "c5-adjustable-rake": {
+    "pattern": "c5-adjustable-rake",
+    "variant": 0
+  },
+  "forward-lwss-rake-p90": {
+    "pattern": "forward-lwss-rake-p90",
+    "variant": 0
+  },
+  "p270-frothing-puffer-rake": {
+    "pattern": "p270-frothing-puffer-rake",
+    "variant": 0
+  },
+  "spider-rake": {
+    "pattern": "spider-rake",
+    "variant": 0
+  },
+  "weekenderdistaff": {
+    "pattern": "weekenderdistaff",
+    "variant": 0
+  },
+  "turing-machine-3-state": {
+    "pattern": "turing-machine-3-state",
+    "variant": 0
+  },
+  "unit-life-cell-512x512": {
+    "pattern": "unit-life-cell-512x512",
+    "variant": 0
+  },
+  "unit-life-deep-cell": {
+    "pattern": "unit-life-deep-cell",
+    "variant": 0
+  },
+  "advancer": {
+    "pattern": "advancer",
+    "variant": 0
+  },
+  "chase-the-glider": {
+    "pattern": "chase-the-glider",
+    "variant": 0
+  },
+  "constructor-memory-loop": {
+    "pattern": "constructor-memory-loop",
+    "variant": 0
+  },
+  "constructor-memory-tape": {
+    "pattern": "constructor-memory-tape",
+    "variant": 0
+  },
+  "heisenblinker-30": {
+    "pattern": "heisenblinker-30",
+    "variant": 0
+  },
+  "heisenburp-30": {
+    "pattern": "heisenburp-30",
+    "variant": 0
+  },
+  "heisenburp-46-natural": {
+    "pattern": "heisenburp-46-natural",
+    "variant": 0
+  },
+  "heisenburp-46": {
+    "pattern": "heisenburp-46",
+    "variant": 0
+  },
+  "high-bandwidth-telegraph": {
+    "pattern": "high-bandwidth-telegraph",
+    "variant": 0
+  },
+  "loafer-mwss-signal-loop": {
+    "pattern": "loafer-mwss-signal-loop",
+    "variant": 0
+  },
+  "p30-racetrack": {
+    "pattern": "p30-racetrack",
+    "variant": 0
+  },
+  "p46racetrack": {
+    "pattern": "p46racetrack",
+    "variant": 0
+  },
+  "reflectors": {
+    "pattern": "reflectors",
+    "variant": 0
+  },
+  "reflectors2": {
+    "pattern": "reflectors2",
+    "variant": 0
+  },
+  "signal-turns-and-fizzles": {
+    "pattern": "signal-turns-and-fizzles",
+    "variant": 0
+  },
+  "single-channel-spiral-growth": {
+    "pattern": "single-channel-spiral-growth",
+    "variant": 0
+  },
+  "stargate": {
+    "pattern": "stargate",
+    "variant": 0
+  },
+  "traffic-lights-extruder": {
+    "pattern": "traffic-lights-extruder",
+    "variant": 0
+  },
+  "2c5-orthogonal": {
+    "pattern": "2c5-orthogonal",
+    "variant": 0
+  },
+  "corder-lineship": {
+    "pattern": "corder-lineship",
+    "variant": 0
+  },
+  "cordership-lwss-freeze-tag": {
+    "pattern": "cordership-lwss-freeze-tag",
+    "variant": 0
+  },
+  "cordership-boat-burner": {
+    "pattern": "cordership-boat-burner",
+    "variant": 0
+  },
+  "adjustable-corder-lineship": {
+    "pattern": "adjustable-corder-lineship",
+    "variant": 0
+  },
+  "c2-orthogonal": {
+    "pattern": "c2-orthogonal",
+    "variant": 0
+  },
+  "c3-orthogonal": {
+    "pattern": "c3-orthogonal",
+    "variant": 0
+  },
+  "c4-diagonal": {
+    "pattern": "c4-diagonal",
+    "variant": 0
+  },
+  "c4-orthogonal": {
+    "pattern": "c4-orthogonal",
+    "variant": 0
+  },
+  "corderships": {
+    "pattern": "corderships",
+    "variant": 0
+  },
+  "diagonal": {
+    "pattern": "diagonal",
+    "variant": 0
+  },
+  "orthogonal": {
+    "pattern": "orthogonal",
+    "variant": 0
+  },
+  "short-thin": {
+    "pattern": "short-thin",
+    "variant": 0
+  },
+  "smallest-low-period": {
+    "pattern": "smallest-low-period",
+    "variant": 0
+  },
+  "spaceship-types": {
+    "pattern": "spaceship-types",
+    "variant": 0
+  },
+  "1998-eater-stamp-collection": {
+    "pattern": "1998-eater-stamp-collection",
+    "variant": 0
+  },
+  "eaters-misc": {
+    "pattern": "eaters-misc",
+    "variant": 0
+  },
+  "eaters": {
+    "pattern": "eaters",
+    "variant": 0
+  },
+  "random": {
+    "pattern": "random",
+    "variant": 0
+  },
+  "ss-eaters": {
+    "pattern": "ss-eaters",
+    "variant": 0
+  },
+  "stripey": {
+    "pattern": "stripey",
+    "variant": 0
+  },
+  "109-still-lifes": {
+    "pattern": "109-still-lifes",
+    "variant": 0
+  },
+  "29-still-lifes": {
+    "pattern": "29-still-lifes",
+    "variant": 0
+  },
+  "blockish-and-blockic-seeds": {
+    "pattern": "blockish-and-blockic-seeds",
+    "variant": 0
+  },
+  "life-integer-constructions": {
+    "pattern": "life-integer-constructions",
+    "variant": 0
+  },
+  "make-harbor": {
+    "pattern": "make-harbor",
+    "variant": 0
+  },
+  "make-osc-p3": {
+    "pattern": "make-osc-p3",
+    "variant": 0
+  },
+  "make-osc-p4": {
+    "pattern": "make-osc-p4",
+    "variant": 0
+  },
+  "make-osc-p5-plus": {
+    "pattern": "make-osc-p5-plus",
+    "variant": 0
+  },
+  "make-p11": {
+    "pattern": "make-p11",
+    "variant": 0
+  },
+  "make-p18": {
+    "pattern": "make-p18",
+    "variant": 0
+  },
+  "make-p33": {
+    "pattern": "make-p33",
+    "variant": 0
+  },
+  "oscillator-syntheses": {
+    "pattern": "oscillator-syntheses",
+    "variant": 0
+  },
+  "slow-salvo-mwss-oscillator": {
+    "pattern": "slow-salvo-mwss-oscillator",
+    "variant": 0
+  },
+  "slow-salvo-eater-recipes": {
+    "pattern": "slow-salvo-eater-recipes",
+    "variant": 0
+  },
+  "spaceship-synthesis-demo-pattern": {
+    "pattern": "spaceship-synthesis-demo-pattern",
+    "variant": 0
+  },
+  "syntheses-of-c2-spaceships": {
+    "pattern": "syntheses-of-c2-spaceships",
+    "variant": 0
+  },
+  "two-glider-collisions": {
+    "pattern": "two-glider-collisions",
+    "variant": 0
+  },
+  "block": {
+    "pattern": "block",
+    "variant": 0
+  },
+  "blinker": {
+    "pattern": "blinker",
+    "variant": 0
+  },
+  "glider": {
+    "pattern": "glider",
+    "variant": 0
+  },
+  "lightweight-spaceship": {
+    "pattern": "lightweight-spaceship",
+    "variant": 0
+  },
+  "middleweight-spaceship": {
+    "pattern": "middleweight-spaceship",
+    "variant": 0
+  },
+  "heavyweight-spaceship": {
+    "pattern": "heavyweight-spaceship",
+    "variant": 0
+  },
+  "eater": {
+    "pattern": "eater",
+    "variant": 0
+  },
+  "queen-bee": {
+    "pattern": "queen-bee",
+    "variant": 0
+  },
+  "herschel": {
+    "pattern": "herschel",
+    "variant": 0
+  },
+  "b-heptomino": {
+    "pattern": "b-heptomino",
+    "variant": 0
+  },
+  "tub": {
+    "pattern": "tub",
+    "variant": 0
+  },
+  "boat": {
+    "pattern": "boat",
+    "variant": 0
+  },
+  "long-boat": {
+    "pattern": "long-boat",
+    "variant": 0
+  },
+  "ship": {
+    "pattern": "ship",
+    "variant": 0
+  },
+  "beehive": {
+    "pattern": "beehive",
+    "variant": 0
+  },
+  "loaf": {
+    "pattern": "loaf",
+    "variant": 0
+  },
+  "snake": {
+    "pattern": "snake",
+    "variant": 0
+  },
+  "aircraft-carrier": {
+    "pattern": "aircraft-carrier",
+    "variant": 0
+  },
+  "honey-farm": {
+    "pattern": "honey-farm",
+    "variant": 0
+  },
+  "beacon": {
+    "pattern": "beacon",
+    "variant": 0
+  },
+  "blocker": {
+    "pattern": "blocker",
+    "variant": 0
+  },
+  "clock": {
+    "pattern": "clock",
+    "variant": 0
+  },
+  "dart": {
+    "pattern": "dart",
+    "variant": 0
+  },
+  "big-beacon": {
+    "pattern": "big-beacon",
+    "variant": 0
+  },
+  "middleweight-volcano": {
+    "pattern": "middleweight-volcano",
+    "variant": 0
+  },
+  "heavyweight-volcano": {
+    "pattern": "heavyweight-volcano",
+    "variant": 0
+  },
+  "galaxy": {
+    "pattern": "galaxy",
+    "variant": 0
+  },
+  "orion": {
+    "pattern": "orion",
+    "variant": 0
+  },
+  "pentadecathlon": {
+    "pattern": "pentadecathlon",
+    "variant": 0
+  },
+  "pi-heptomino": {
+    "pattern": "pi-heptomino",
+    "variant": 0
+  },
+  "pond": {
+    "pattern": "pond",
+    "variant": 0
+  },
+  "pulsar": {
+    "pattern": "pulsar",
+    "variant": 0
+  },
+  "r-pentomino": {
+    "pattern": "r-pentomino",
+    "variant": 0
+  },
+  "spider": {
+    "pattern": "spider",
+    "variant": 0
+  },
+  "lightweight-volcano": {
+    "pattern": "lightweight-volcano",
+    "variant": 0
+  },
+  "unix": {
+    "pattern": "unix",
+    "variant": 0
+  },
+  "biblocker": {
+    "pattern": "biblocker",
+    "variant": 0
+  },
+  "gosper-glider-gun": {
+    "pattern": "gosper-glider-gun",
+    "variant": 0
+  }
+}

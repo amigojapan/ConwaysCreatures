@@ -1,0 +1,1422 @@
+{
+  "distribution": "Golly 5.0",
+  "policy": "Complete files; unbounded B3/S23 only; duplicates ignore translation, rotation and reflection.",
+  "included": [
+    {
+      "id": "20-cell-quadratic-growth",
+      "source": "Life/Breeders/20-cell-quadratic-growth.rle",
+      "population": 20,
+      "width": 97,
+      "height": 33
+    },
+    {
+      "id": "lwss-breeder",
+      "source": "Life/Breeders/LWSS-breeder.rle",
+      "population": 17352,
+      "width": 1640,
+      "height": 619
+    },
+    {
+      "id": "p-6-166",
+      "source": "Life/Breeders/breeder.lif",
+      "population": 4060,
+      "width": 749,
+      "height": 338
+    },
+    {
+      "id": "c4-diag-switch-engines",
+      "source": "Life/Breeders/c4-diag-switch-engines.rle",
+      "population": 878,
+      "width": 152,
+      "height": 94
+    },
+    {
+      "id": "one-cell-thick-quadratic-growth-2596x1",
+      "source": "Life/Breeders/one-cell-thick-quadratic-growth-2596x1.rle",
+      "population": 450,
+      "width": 2596,
+      "height": 1
+    },
+    {
+      "id": "p100-h-channel-breeder",
+      "source": "Life/Breeders/p100-H-channel-breeder.rle",
+      "population": 3682,
+      "width": 647,
+      "height": 262
+    },
+    {
+      "id": "p90-rake-factory",
+      "source": "Life/Breeders/p90-rake-factory.rle",
+      "population": 2097,
+      "width": 288,
+      "height": 129
+    },
+    {
+      "id": "pi-blink-breeder1",
+      "source": "Life/Breeders/pi-blink-breeder1.rle",
+      "population": 4518,
+      "width": 741,
+      "height": 205
+    },
+    {
+      "id": "pi-blink-breeder2",
+      "source": "Life/Breeders/pi-blink-breeder2.rle",
+      "population": 5322,
+      "width": 957,
+      "height": 237
+    },
+    {
+      "id": "quartermax",
+      "source": "Life/Breeders/quartermax.rle",
+      "population": 958,
+      "width": 108,
+      "height": 60
+    },
+    {
+      "id": "rake-breeder",
+      "source": "Life/Breeders/rake-breeder.rle",
+      "population": 3149,
+      "width": 398,
+      "height": 405
+    },
+    {
+      "id": "slide-breeder",
+      "source": "Life/Breeders/slide-breeder.rle",
+      "population": 23237,
+      "width": 2393,
+      "height": 4182
+    },
+    {
+      "id": "spacefiller",
+      "source": "Life/Breeders/spacefiller.rle",
+      "population": 200,
+      "width": 49,
+      "height": 26
+    },
+    {
+      "id": "switch-engine-breeder-mr",
+      "source": "Life/Breeders/switch-engine-breeder-MR.rle",
+      "population": 335,
+      "width": 221,
+      "height": 173
+    },
+    {
+      "id": "switch-engine-breeder",
+      "source": "Life/Breeders/switch-engine-breeder.rle",
+      "population": 707,
+      "width": 85,
+      "height": 164
+    },
+    {
+      "id": "switch-engine-ping-pong",
+      "source": "Life/Breeders/switch-engine-ping-pong.rle",
+      "population": 23,
+      "width": 210515,
+      "height": 183739
+    },
+    {
+      "id": "2c5-spaceship-gun-p416",
+      "source": "Life/Guns/2c5-spaceship-gun-p416.rle",
+      "population": 26614,
+      "width": 990,
+      "height": 979
+    },
+    {
+      "id": "2c5-spaceship-gun-p690",
+      "source": "Life/Guns/2c5-spaceship-gun-p690.rle",
+      "population": 12611,
+      "width": 871,
+      "height": 854
+    },
+    {
+      "id": "7-in-a-row-cordership-v-gun",
+      "source": "Life/Guns/7-in-a-row-Cordership-V-gun.rle",
+      "population": 32552,
+      "width": 2325,
+      "height": 2210
+    },
+    {
+      "id": "cordership-gun-p784",
+      "source": "Life/Guns/Cordership-gun-p784.rle",
+      "population": 24976,
+      "width": 1285,
+      "height": 1065
+    },
+    {
+      "id": "golly-ticker",
+      "source": "Life/Guns/golly-ticker.rle",
+      "population": 5043,
+      "width": 2993,
+      "height": 747
+    },
+    {
+      "id": "gun-p165mwss",
+      "source": "Life/Guns/gun-p165mwss.rle",
+      "population": 563,
+      "width": 178,
+      "height": 218
+    },
+    {
+      "id": "infinite-corderships-gun",
+      "source": "Life/Guns/infinite-Corderships-gun.rle.gz",
+      "population": 13151,
+      "width": 960,
+      "height": 981
+    },
+    {
+      "id": "loafer-gun-p210",
+      "source": "Life/Guns/loafer-gun-p210.rle",
+      "population": 1746,
+      "width": 226,
+      "height": 195
+    },
+    {
+      "id": "p148-b29-gun",
+      "source": "Life/Guns/p148-B29-gun.rle",
+      "population": 14647,
+      "width": 623,
+      "height": 516
+    },
+    {
+      "id": "p59-gun-with-snark-reflectors",
+      "source": "Life/Guns/p59-gun-with-Snark-reflectors.rle",
+      "population": 2738,
+      "width": 299,
+      "height": 239
+    },
+    {
+      "id": "p690-pt-cordership-gun",
+      "source": "Life/Guns/p690-PT-Cordership-gun.rle",
+      "population": 2473,
+      "width": 517,
+      "height": 471
+    },
+    {
+      "id": "period-52-glider-gun",
+      "source": "Life/Guns/period-52-glider-gun.rle",
+      "population": 908,
+      "width": 126,
+      "height": 97
+    },
+    {
+      "id": "pseudo-p34-gun",
+      "source": "Life/Guns/pseudo-p34-gun.rle",
+      "population": 2445,
+      "width": 243,
+      "height": 157
+    },
+    {
+      "id": "vacuum-cleaner",
+      "source": "Life/Guns/vacuum-cleaner.rle",
+      "population": 440,
+      "width": 90,
+      "height": 97
+    },
+    {
+      "id": "52513m",
+      "source": "Life/Methuselahs/52513m.rle",
+      "population": 131,
+      "width": 16,
+      "height": 16
+    },
+    {
+      "id": "acorn",
+      "source": "Life/Methuselahs/acorn.lif",
+      "population": 7,
+      "width": 7,
+      "height": 3
+    },
+    {
+      "id": "ark1",
+      "source": "Life/Methuselahs/ark1.rle",
+      "population": 16,
+      "width": 32,
+      "height": 29
+    },
+    {
+      "id": "ark2",
+      "source": "Life/Methuselahs/ark2.rle",
+      "population": 19,
+      "width": 53,
+      "height": 44
+    },
+    {
+      "id": "blom",
+      "source": "Life/Methuselahs/blom.rle",
+      "population": 13,
+      "width": 12,
+      "height": 5
+    },
+    {
+      "id": "die-1120271",
+      "source": "Life/Methuselahs/die-1120271.rle",
+      "population": 248,
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "iwona",
+      "source": "Life/Methuselahs/iwona.rle",
+      "population": 19,
+      "width": 20,
+      "height": 21
+    },
+    {
+      "id": "justyna",
+      "source": "Life/Methuselahs/justyna.rle",
+      "population": 20,
+      "width": 22,
+      "height": 17
+    },
+    {
+      "id": "lidka-predecessor",
+      "source": "Life/Methuselahs/lidka-predecessor.rle",
+      "population": 13,
+      "width": 9,
+      "height": 15
+    },
+    {
+      "id": "natural-lwss",
+      "source": "Life/Methuselahs/natural-LWSS.rle",
+      "population": 12,
+      "width": 8,
+      "height": 5
+    },
+    {
+      "id": "rabbits-relation-17423",
+      "source": "Life/Methuselahs/rabbits-relation-17423.rle",
+      "population": 10,
+      "width": 6,
+      "height": 6
+    },
+    {
+      "id": "rabbits-relation-17465",
+      "source": "Life/Methuselahs/rabbits-relation-17465.rle",
+      "population": 11,
+      "width": 6,
+      "height": 4
+    },
+    {
+      "id": "rabbits",
+      "source": "Life/Methuselahs/rabbits.lif",
+      "population": 9,
+      "width": 7,
+      "height": 3
+    },
+    {
+      "id": "temp-pulsars-big-s",
+      "source": "Life/Methuselahs/temp-pulsars-big-s.rle",
+      "population": 32,
+      "width": 8,
+      "height": 8
+    },
+    {
+      "id": "blockstacker",
+      "source": "Life/Miscellaneous/blockstacker.rle",
+      "population": 8117,
+      "width": 531,
+      "height": 915
+    },
+    {
+      "id": "cambrian-explosion",
+      "source": "Life/Miscellaneous/cambrian-explosion.rle",
+      "population": 54296,
+      "width": 1028,
+      "height": 672
+    },
+    {
+      "id": "conga-line-switch-engine-extender",
+      "source": "Life/Miscellaneous/conga-line-switch-engine-extender.rle",
+      "population": 2835,
+      "width": 221,
+      "height": 256
+    },
+    {
+      "id": "diagfuse1",
+      "source": "Life/Miscellaneous/diagfuse1.rle",
+      "population": 760,
+      "width": 127,
+      "height": 133
+    },
+    {
+      "id": "die658",
+      "source": "Life/Miscellaneous/die658.rle",
+      "population": 115,
+      "width": 20,
+      "height": 20
+    },
+    {
+      "id": "elbow-ladders",
+      "source": "Life/Miscellaneous/elbow-ladders.rle",
+      "population": 2183,
+      "width": 463,
+      "height": 206
+    },
+    {
+      "id": "fermat-primes",
+      "source": "Life/Miscellaneous/fermat-primes.rle",
+      "population": 10001,
+      "width": 838,
+      "height": 736
+    },
+    {
+      "id": "four-primers",
+      "source": "Life/Miscellaneous/four-primers.rle.gz",
+      "population": 20143,
+      "width": 1494,
+      "height": 1020
+    },
+    {
+      "id": "infinity-hotel0",
+      "source": "Life/Miscellaneous/infinity-hotel0.rle",
+      "population": 1278,
+      "width": 566,
+      "height": 572
+    },
+    {
+      "id": "infinity-hotel1",
+      "source": "Life/Miscellaneous/infinity-hotel1.rle",
+      "population": 2120,
+      "width": 274,
+      "height": 206
+    },
+    {
+      "id": "infinity-hotel2",
+      "source": "Life/Miscellaneous/infinity-hotel2.rle",
+      "population": 1707,
+      "width": 256,
+      "height": 157
+    },
+    {
+      "id": "infinity-hotel3",
+      "source": "Life/Miscellaneous/infinity-hotel3.rle",
+      "population": 3357,
+      "width": 515,
+      "height": 298
+    },
+    {
+      "id": "lightspeed",
+      "source": "Life/Miscellaneous/lightspeed.rle",
+      "population": 933,
+      "width": 781,
+      "height": 364
+    },
+    {
+      "id": "loggrow-corder",
+      "source": "Life/Miscellaneous/loggrow-corder.rle",
+      "population": 824,
+      "width": 158,
+      "height": 168
+    },
+    {
+      "id": "ordovician-radiation",
+      "source": "Life/Miscellaneous/ordovician-radiation.rle",
+      "population": 83986,
+      "width": 1326,
+      "height": 912
+    },
+    {
+      "id": "sawtooth-177",
+      "source": "Life/Miscellaneous/sawtooth177.rle",
+      "population": 177,
+      "width": 68,
+      "height": 77
+    },
+    {
+      "id": "three-halves-growth",
+      "source": "Life/Miscellaneous/three-halves-growth.rle",
+      "population": 3845,
+      "width": 832,
+      "height": 282
+    },
+    {
+      "id": "tubstretch-c124b",
+      "source": "Life/Miscellaneous/tubstretch-c124b.rle",
+      "population": 2446,
+      "width": 346,
+      "height": 313
+    },
+    {
+      "id": "twinprimes",
+      "source": "Life/Miscellaneous/twinprimes.rle",
+      "population": 3062,
+      "width": 440,
+      "height": 294
+    },
+    {
+      "id": "wicks-drh-2002",
+      "source": "Life/Miscellaneous/wicks-DRH-2002.rle",
+      "population": 22103,
+      "width": 1172,
+      "height": 450
+    },
+    {
+      "id": "billiard-table",
+      "source": "Life/Oscillators/billiard-table.rle",
+      "population": 4865,
+      "width": 347,
+      "height": 222
+    },
+    {
+      "id": "extensible-low-period",
+      "source": "Life/Oscillators/extensible-low-period.rle",
+      "population": 3235,
+      "width": 328,
+      "height": 205
+    },
+    {
+      "id": "glider-stream-crystal",
+      "source": "Life/Oscillators/glider-stream-crystal.rle",
+      "population": 1664,
+      "width": 252,
+      "height": 221
+    },
+    {
+      "id": "honey-farm-hasslers",
+      "source": "Life/Oscillators/honey-farm-hasslers.rle",
+      "population": 22128,
+      "width": 995,
+      "height": 632
+    },
+    {
+      "id": "low-period",
+      "source": "Life/Oscillators/low-period.rle",
+      "population": 7088,
+      "width": 491,
+      "height": 249
+    },
+    {
+      "id": "oscillator-stamp-collection",
+      "source": "Life/Oscillators/oscillator-stamp-collection-31January2023.rle",
+      "population": 220249,
+      "width": 6639,
+      "height": 649
+    },
+    {
+      "id": "p103079214841",
+      "source": "Life/Oscillators/p103079214841.rle",
+      "population": 1618,
+      "width": 297,
+      "height": 227
+    },
+    {
+      "id": "p138",
+      "source": "Life/Oscillators/p138.rle",
+      "population": 832,
+      "width": 215,
+      "height": 103
+    },
+    {
+      "id": "phase-shift",
+      "source": "Life/Oscillators/phase-shift.rle",
+      "population": 10864,
+      "width": 949,
+      "height": 487
+    },
+    {
+      "id": "queen-bee-turn",
+      "source": "Life/Oscillators/queen-bee-turn.rle",
+      "population": 1833,
+      "width": 155,
+      "height": 155
+    },
+    {
+      "id": "traffic-light-hasslers",
+      "source": "Life/Oscillators/traffic-light-hasslers.rle",
+      "population": 19934,
+      "width": 1043,
+      "height": 759
+    },
+    {
+      "id": "unique-high-period",
+      "source": "Life/Oscillators/unique-high-period.rle",
+      "population": 2084,
+      "width": 254,
+      "height": 174
+    },
+    {
+      "id": "c4-diagonal-puffer",
+      "source": "Life/Puffers/c4-diagonal-puffer.rle",
+      "population": 2422,
+      "width": 897,
+      "height": 897
+    },
+    {
+      "id": "line-puffer-superstable",
+      "source": "Life/Puffers/line-puffer-superstable.rle",
+      "population": 878,
+      "width": 32,
+      "height": 156
+    },
+    {
+      "id": "line-puffer-unstable",
+      "source": "Life/Puffers/line-puffer-unstable.rle",
+      "population": 422,
+      "width": 17,
+      "height": 99
+    },
+    {
+      "id": "millionaire-puffer",
+      "source": "Life/Puffers/millionaire-puffer.rle",
+      "population": 46,
+      "width": 150,
+      "height": 74
+    },
+    {
+      "id": "p100-h-track-puffer",
+      "source": "Life/Puffers/p100-H-track-puffer.rle",
+      "population": 4138,
+      "width": 1330,
+      "height": 247
+    },
+    {
+      "id": "pi-fuse-puffer",
+      "source": "Life/Puffers/pi-fuse-puffer.rle",
+      "population": 386,
+      "width": 21,
+      "height": 87
+    },
+    {
+      "id": "puffer-2c5",
+      "source": "Life/Puffers/puffer-2c5.rle",
+      "population": 384,
+      "width": 112,
+      "height": 75
+    },
+    {
+      "id": "puffer-train",
+      "source": "Life/Puffers/puffer-train.rle",
+      "population": 22,
+      "width": 5,
+      "height": 18
+    },
+    {
+      "id": "zigzag-wickstretcher",
+      "source": "Life/Puffers/zigzag-wickstretcher.rle",
+      "population": 10580,
+      "width": 331,
+      "height": 1070
+    },
+    {
+      "id": "2c5-engineless-rake-p185",
+      "source": "Life/Rakes/2c5-engineless-rake-p185.rle",
+      "population": 2633,
+      "width": 531,
+      "height": 201
+    },
+    {
+      "id": "2c5-spaceship-rake-p240",
+      "source": "Life/Rakes/2c5-spaceship-rake-p240.rle",
+      "population": 12281,
+      "width": 1376,
+      "height": 297
+    },
+    {
+      "id": "basic-rakes",
+      "source": "Life/Rakes/basic-rakes.rle",
+      "population": 372,
+      "width": 263,
+      "height": 79
+    },
+    {
+      "id": "c2-cordership-rake",
+      "source": "Life/Rakes/c2-Cordership-rake.rle",
+      "population": 3685,
+      "width": 461,
+      "height": 424
+    },
+    {
+      "id": "c3-forward-rake-p159",
+      "source": "Life/Rakes/c3-forward-rake-p159.rle",
+      "population": 5363,
+      "width": 473,
+      "height": 780
+    },
+    {
+      "id": "c4-sideways-rake",
+      "source": "Life/Rakes/c4-sideways-rake.rle",
+      "population": 15908,
+      "width": 3285,
+      "height": 3306
+    },
+    {
+      "id": "c5-adjustable-rake",
+      "source": "Life/Rakes/c5-adjustable-rake.rle",
+      "population": 7334,
+      "width": 2468,
+      "height": 910
+    },
+    {
+      "id": "forward-lwss-rake-p90",
+      "source": "Life/Rakes/forward-LWSS-rake-p90.rle",
+      "population": 6880,
+      "width": 269,
+      "height": 475
+    },
+    {
+      "id": "p270-frothing-puffer-rake",
+      "source": "Life/Rakes/p270-frothing-puffer-rake.rle",
+      "population": 4548,
+      "width": 249,
+      "height": 371
+    },
+    {
+      "id": "spider-rake",
+      "source": "Life/Rakes/spider-rake.rle",
+      "population": 1256,
+      "width": 500,
+      "height": 127
+    },
+    {
+      "id": "weekenderdistaff",
+      "source": "Life/Rakes/weekender-distaff.rle.gz",
+      "population": 6609,
+      "width": 281,
+      "height": 2206
+    },
+    {
+      "id": "turing-machine-3-state",
+      "source": "Life/Signal-Circuitry/Turing-Machine-3-state.rle",
+      "population": 36549,
+      "width": 1714,
+      "height": 1647
+    },
+    {
+      "id": "unit-life-cell-512x512",
+      "source": "Life/Signal-Circuitry/Unit-Life-Cell-512x512.rle",
+      "population": 4668,
+      "width": 511,
+      "height": 511
+    },
+    {
+      "id": "unit-life-deep-cell",
+      "source": "Life/Signal-Circuitry/Unit-Life-Deep-Cell.rle",
+      "population": 5449,
+      "width": 499,
+      "height": 516
+    },
+    {
+      "id": "advancer",
+      "source": "Life/Signal-Circuitry/advancer.rle",
+      "population": 329,
+      "width": 135,
+      "height": 144
+    },
+    {
+      "id": "chase-the-glider",
+      "source": "Life/Signal-Circuitry/chase-the-glider.rle",
+      "population": 16237,
+      "width": 1717,
+      "height": 1627
+    },
+    {
+      "id": "constructor-memory-loop",
+      "source": "Life/Signal-Circuitry/constructor-memory-loop.rle",
+      "population": 12947,
+      "width": 31473,
+      "height": 31101
+    },
+    {
+      "id": "constructor-memory-tape",
+      "source": "Life/Signal-Circuitry/constructor-memory-tape.rle",
+      "population": 13322,
+      "width": 4235,
+      "height": 2765
+    },
+    {
+      "id": "heisenblinker-30",
+      "source": "Life/Signal-Circuitry/heisenblinker-30.rle",
+      "population": 223,
+      "width": 68,
+      "height": 74
+    },
+    {
+      "id": "heisenburp-30",
+      "source": "Life/Signal-Circuitry/heisenburp-30.rle",
+      "population": 545,
+      "width": 139,
+      "height": 157
+    },
+    {
+      "id": "heisenburp-46-natural",
+      "source": "Life/Signal-Circuitry/heisenburp-46-natural.rle",
+      "population": 123,
+      "width": 46,
+      "height": 51
+    },
+    {
+      "id": "heisenburp-46",
+      "source": "Life/Signal-Circuitry/heisenburp-46.rle",
+      "population": 724,
+      "width": 213,
+      "height": 209
+    },
+    {
+      "id": "high-bandwidth-telegraph",
+      "source": "Life/Signal-Circuitry/high-bandwidth-telegraph.rle.gz",
+      "population": 133510,
+      "width": 10433,
+      "height": 2413
+    },
+    {
+      "id": "loafer-mwss-signal-loop",
+      "source": "Life/Signal-Circuitry/loafer-mwss-signal-loop.rle.gz",
+      "population": 5201,
+      "width": 983,
+      "height": 647
+    },
+    {
+      "id": "p30-racetrack",
+      "source": "Life/Signal-Circuitry/p30-racetrack.rle",
+      "population": 902,
+      "width": 308,
+      "height": 176
+    },
+    {
+      "id": "p46racetrack",
+      "source": "Life/Signal-Circuitry/p46racetrack.rle",
+      "population": 2756,
+      "width": 571,
+      "height": 383
+    },
+    {
+      "id": "reflectors",
+      "source": "Life/Signal-Circuitry/reflectors.rle",
+      "population": 5964,
+      "width": 528,
+      "height": 416
+    },
+    {
+      "id": "reflectors2",
+      "source": "Life/Signal-Circuitry/reflectors2.rle",
+      "population": 4764,
+      "width": 583,
+      "height": 289
+    },
+    {
+      "id": "signal-turns-and-fizzles",
+      "source": "Life/Signal-Circuitry/signal-turns-and-fizzles.rle.gz",
+      "population": 12169,
+      "width": 578,
+      "height": 336
+    },
+    {
+      "id": "single-channel-spiral-growth",
+      "source": "Life/Signal-Circuitry/single-channel-spiral-growth.rle.gz",
+      "population": 19362,
+      "width": 1966,
+      "height": 2007
+    },
+    {
+      "id": "stargate",
+      "source": "Life/Signal-Circuitry/stargate.rle",
+      "population": 1238,
+      "width": 155,
+      "height": 133
+    },
+    {
+      "id": "traffic-lights-extruder",
+      "source": "Life/Signal-Circuitry/traffic-lights-extruder.rle",
+      "population": 23889,
+      "width": 3141,
+      "height": 2078
+    },
+    {
+      "id": "2c5-orthogonal",
+      "source": "Life/Spaceships/2c5-orthogonal.rle",
+      "population": 30621,
+      "width": 1347,
+      "height": 760
+    },
+    {
+      "id": "corder-lineship",
+      "source": "Life/Spaceships/Corder-lineship.rle",
+      "population": 7178,
+      "width": 675,
+      "height": 653
+    },
+    {
+      "id": "cordership-lwss-freeze-tag",
+      "source": "Life/Spaceships/Cordership-LWSS-freeze-tag.rle",
+      "population": 6698,
+      "width": 642,
+      "height": 598
+    },
+    {
+      "id": "cordership-boat-burner",
+      "source": "Life/Spaceships/Cordership-boat-burner.rle",
+      "population": 3211,
+      "width": 619,
+      "height": 638
+    },
+    {
+      "id": "adjustable-corder-lineship",
+      "source": "Life/Spaceships/adjustable-Corder-lineship.rle",
+      "population": 4620,
+      "width": 894,
+      "height": 809
+    },
+    {
+      "id": "c2-orthogonal",
+      "source": "Life/Spaceships/c2-orthogonal.rle",
+      "population": 4489,
+      "width": 724,
+      "height": 138
+    },
+    {
+      "id": "c3-orthogonal",
+      "source": "Life/Spaceships/c3-orthogonal.rle",
+      "population": 9613,
+      "width": 857,
+      "height": 462
+    },
+    {
+      "id": "c4-diagonal",
+      "source": "Life/Spaceships/c4-diagonal.rle",
+      "population": 34096,
+      "width": 1386,
+      "height": 765
+    },
+    {
+      "id": "c4-orthogonal",
+      "source": "Life/Spaceships/c4-orthogonal.rle",
+      "population": 21059,
+      "width": 1696,
+      "height": 652
+    },
+    {
+      "id": "corderships",
+      "source": "Life/Spaceships/corderships.rle",
+      "population": 1207,
+      "width": 244,
+      "height": 255
+    },
+    {
+      "id": "diagonal",
+      "source": "Life/Spaceships/diagonal.rle",
+      "population": 946,
+      "width": 114,
+      "height": 92
+    },
+    {
+      "id": "orthogonal",
+      "source": "Life/Spaceships/orthogonal.rle",
+      "population": 791,
+      "width": 194,
+      "height": 76
+    },
+    {
+      "id": "short-thin",
+      "source": "Life/Spaceships/short-thin.rle",
+      "population": 1482,
+      "width": 406,
+      "height": 163
+    },
+    {
+      "id": "smallest-low-period",
+      "source": "Life/Spaceships/smallest-low-period.rle",
+      "population": 1930,
+      "width": 284,
+      "height": 272
+    },
+    {
+      "id": "spaceship-types",
+      "source": "Life/Spaceships/spaceship-types.rle",
+      "population": 1547,
+      "width": 279,
+      "height": 368
+    },
+    {
+      "id": "1998-eater-stamp-collection",
+      "source": "Life/Still-Lifes/1998-eater-stamp-collection.rle",
+      "population": 5501,
+      "width": 241,
+      "height": 350
+    },
+    {
+      "id": "eaters-misc",
+      "source": "Life/Still-Lifes/eaters-misc.rle",
+      "population": 316,
+      "width": 99,
+      "height": 49
+    },
+    {
+      "id": "eaters",
+      "source": "Life/Still-Lifes/eaters.rle",
+      "population": 911,
+      "width": 126,
+      "height": 135
+    },
+    {
+      "id": "random",
+      "source": "Life/Still-Lifes/random.rle",
+      "population": 4203,
+      "width": 98,
+      "height": 98
+    },
+    {
+      "id": "ss-eaters",
+      "source": "Life/Still-Lifes/ss-eaters.rle",
+      "population": 250,
+      "width": 89,
+      "height": 82
+    },
+    {
+      "id": "stripey",
+      "source": "Life/Still-Lifes/stripey.rle",
+      "population": 2004,
+      "width": 66,
+      "height": 65
+    },
+    {
+      "id": "109-still-lifes",
+      "source": "Life/Syntheses/109-still-lifes.rle",
+      "population": 2786,
+      "width": 246,
+      "height": 279
+    },
+    {
+      "id": "29-still-lifes",
+      "source": "Life/Syntheses/29-still-lifes.rle",
+      "population": 2114,
+      "width": 229,
+      "height": 229
+    },
+    {
+      "id": "blockish-and-blockic-seeds",
+      "source": "Life/Syntheses/blockish-and-blockic-seeds.rle",
+      "population": 3111,
+      "width": 691,
+      "height": 391
+    },
+    {
+      "id": "life-integer-constructions",
+      "source": "Life/Syntheses/life-integer-constructions.rle",
+      "population": 13000,
+      "width": 736,
+      "height": 428
+    },
+    {
+      "id": "make-harbor",
+      "source": "Life/Syntheses/make-harbor.rle",
+      "population": 170,
+      "width": 209,
+      "height": 209
+    },
+    {
+      "id": "make-osc-p3",
+      "source": "Life/Syntheses/make-osc-p3.rle",
+      "population": 1570,
+      "width": 271,
+      "height": 186
+    },
+    {
+      "id": "make-osc-p4",
+      "source": "Life/Syntheses/make-osc-p4.rle",
+      "population": 2405,
+      "width": 331,
+      "height": 345
+    },
+    {
+      "id": "make-osc-p5-plus",
+      "source": "Life/Syntheses/make-osc-p5-plus.rle",
+      "population": 2843,
+      "width": 343,
+      "height": 232
+    },
+    {
+      "id": "make-p11",
+      "source": "Life/Syntheses/make-p11.rle",
+      "population": 480,
+      "width": 266,
+      "height": 266
+    },
+    {
+      "id": "make-p18",
+      "source": "Life/Syntheses/make-p18.rle",
+      "population": 225,
+      "width": 229,
+      "height": 229
+    },
+    {
+      "id": "make-p33",
+      "source": "Life/Syntheses/make-p33.rle",
+      "population": 340,
+      "width": 149,
+      "height": 149
+    },
+    {
+      "id": "oscillator-syntheses",
+      "source": "Life/Syntheses/oscillator-syntheses.rle",
+      "population": 662,
+      "width": 187,
+      "height": 79
+    },
+    {
+      "id": "slow-salvo-mwss-oscillator",
+      "source": "Life/Syntheses/slow-salvo-MWSS-oscillator.rle.gz",
+      "population": 10849,
+      "width": 12970,
+      "height": 13293
+    },
+    {
+      "id": "slow-salvo-eater-recipes",
+      "source": "Life/Syntheses/slow-salvo-eater-recipes.rle",
+      "population": 311,
+      "width": 1361,
+      "height": 1434
+    },
+    {
+      "id": "spaceship-synthesis-demo-pattern",
+      "source": "Life/Syntheses/spaceship-synth-demo.rle",
+      "population": 3830,
+      "width": 3341,
+      "height": 3274
+    },
+    {
+      "id": "syntheses-of-c2-spaceships",
+      "source": "Life/Syntheses/syntheses-of-c2-spaceships.rle.gz",
+      "population": 1195,
+      "width": 988,
+      "height": 955
+    },
+    {
+      "id": "two-glider-collisions",
+      "source": "Life/Syntheses/two-glider-collisions.rle",
+      "population": 1919,
+      "width": 379,
+      "height": 369
+    },
+    {
+      "id": "block",
+      "source": "Scripts/Python/glife/base.py#block",
+      "population": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "id": "blinker",
+      "source": "Scripts/Python/glife/base.py#blinker",
+      "population": 3,
+      "width": 3,
+      "height": 1
+    },
+    {
+      "id": "glider",
+      "source": "Scripts/Python/glife/base.py#glider",
+      "population": 5,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "id": "lightweight-spaceship",
+      "source": "Scripts/Python/glife/base.py#lwss",
+      "population": 9,
+      "width": 5,
+      "height": 4
+    },
+    {
+      "id": "middleweight-spaceship",
+      "source": "Scripts/Python/glife/base.py#mwss",
+      "population": 11,
+      "width": 6,
+      "height": 5
+    },
+    {
+      "id": "heavyweight-spaceship",
+      "source": "Scripts/Python/glife/base.py#hwss",
+      "population": 13,
+      "width": 7,
+      "height": 5
+    },
+    {
+      "id": "eater",
+      "source": "Scripts/Python/glife/base.py#eater",
+      "population": 7,
+      "width": 4,
+      "height": 4
+    },
+    {
+      "id": "queen-bee",
+      "source": "Scripts/Python/glife/base.py#queenbee",
+      "population": 9,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "id": "herschel",
+      "source": "Scripts/Python/glife/base.py#herschel",
+      "population": 7,
+      "width": 4,
+      "height": 3
+    },
+    {
+      "id": "b-heptomino",
+      "source": "Scripts/Python/glife/base.py#bheptomino",
+      "population": 7,
+      "width": 3,
+      "height": 4
+    },
+    {
+      "id": "tub",
+      "source": "Scripts/Python/glife/base.py#tub",
+      "population": 4,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "id": "boat",
+      "source": "Scripts/Python/glife/base.py#boat",
+      "population": 5,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "id": "long-boat",
+      "source": "Scripts/Python/glife/base.py#long_boat",
+      "population": 7,
+      "width": 4,
+      "height": 4
+    },
+    {
+      "id": "ship",
+      "source": "Scripts/Python/glife/base.py#ship",
+      "population": 6,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "id": "beehive",
+      "source": "Scripts/Python/glife/base.py#beehive",
+      "population": 6,
+      "width": 4,
+      "height": 3
+    },
+    {
+      "id": "loaf",
+      "source": "Scripts/Python/glife/base.py#loaf",
+      "population": 7,
+      "width": 4,
+      "height": 4
+    },
+    {
+      "id": "snake",
+      "source": "Scripts/Python/glife/base.py#snake",
+      "population": 6,
+      "width": 4,
+      "height": 2
+    },
+    {
+      "id": "aircraft-carrier",
+      "source": "Scripts/Python/glife/base.py#aircraft_carrier",
+      "population": 6,
+      "width": 4,
+      "height": 3
+    },
+    {
+      "id": "honey-farm",
+      "source": "Scripts/Python/glife/base.py#honeyfarm",
+      "population": 24,
+      "width": 13,
+      "height": 13
+    },
+    {
+      "id": "beacon",
+      "source": "Scripts/Python/glife/base.py#beacon",
+      "population": 6,
+      "width": 4,
+      "height": 4
+    },
+    {
+      "id": "blocker",
+      "source": "Scripts/Python/glife/base.py#blocker",
+      "population": 15,
+      "width": 10,
+      "height": 5
+    },
+    {
+      "id": "clock",
+      "source": "Scripts/Python/glife/base.py#clock",
+      "population": 6,
+      "width": 4,
+      "height": 4
+    },
+    {
+      "id": "dart",
+      "source": "Scripts/Python/glife/base.py#dart",
+      "population": 34,
+      "width": 10,
+      "height": 15
+    },
+    {
+      "id": "big-beacon",
+      "source": "Scripts/Python/glife/base.py#big_beacon",
+      "population": 18,
+      "width": 6,
+      "height": 6
+    },
+    {
+      "id": "middleweight-volcano",
+      "source": "Scripts/Python/glife/base.py#middleweight_volcano",
+      "population": 52,
+      "width": 13,
+      "height": 10
+    },
+    {
+      "id": "heavyweight-volcano",
+      "source": "Scripts/Python/glife/base.py#heavyweight_volcano",
+      "population": 168,
+      "width": 36,
+      "height": 19
+    },
+    {
+      "id": "galaxy",
+      "source": "Scripts/Python/glife/base.py#galaxy",
+      "population": 48,
+      "width": 9,
+      "height": 9
+    },
+    {
+      "id": "orion",
+      "source": "Scripts/Python/glife/base.py#orion",
+      "population": 39,
+      "width": 14,
+      "height": 15
+    },
+    {
+      "id": "pentadecathlon",
+      "source": "Scripts/Python/glife/base.py#pentadecathlon",
+      "population": 12,
+      "width": 10,
+      "height": 3
+    },
+    {
+      "id": "pi-heptomino",
+      "source": "Scripts/Python/glife/base.py#pi",
+      "population": 7,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "id": "pond",
+      "source": "Scripts/Python/glife/base.py#pond",
+      "population": 8,
+      "width": 4,
+      "height": 4
+    },
+    {
+      "id": "pulsar",
+      "source": "Scripts/Python/glife/base.py#pulsar",
+      "population": 48,
+      "width": 13,
+      "height": 13
+    },
+    {
+      "id": "r-pentomino",
+      "source": "Scripts/Python/glife/base.py#rpentomino",
+      "population": 5,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "id": "spider",
+      "source": "Scripts/Python/glife/base.py#spider",
+      "population": 58,
+      "width": 27,
+      "height": 8
+    },
+    {
+      "id": "lightweight-volcano",
+      "source": "Scripts/Python/glife/base.py#lightweight_volcano",
+      "population": 54,
+      "width": 12,
+      "height": 11
+    },
+    {
+      "id": "unix",
+      "source": "Scripts/Python/glife/base.py#unix",
+      "population": 16,
+      "width": 8,
+      "height": 8
+    },
+    {
+      "id": "biblocker",
+      "source": "Scripts/Python/glife/base.py#biblocker",
+      "population": 47,
+      "width": 30,
+      "height": 15
+    },
+    {
+      "id": "gosper-glider-gun",
+      "source": "Scripts/Python/glife/gun30.py#gun30",
+      "population": 32,
+      "width": 36,
+      "height": 9
+    }
+  ],
+  "duplicates": [
+    {
+      "source": "Scripts/Python/glife/base.py#rabbits",
+      "same_as": "rabbits",
+      "name": "Rabbits"
+    }
+  ],
+  "excluded": [
+    {
+      "source": "Life/Bounded-Grids/Klein-bottle.rle",
+      "reason": "Unsupported rule/topology: LifeHistory:K40*,20"
+    },
+    {
+      "source": "Life/Bounded-Grids/agar-p3.rle",
+      "reason": "Unsupported rule/topology: B3/S23:T72,48"
+    },
+    {
+      "source": "Life/Bounded-Grids/cross-surface.rle",
+      "reason": "Unsupported rule/topology: LifeHistory:C40,20"
+    },
+    {
+      "source": "Life/Bounded-Grids/crystallizing-dirty-superstring.rle",
+      "reason": "Unsupported rule/topology: B3/S23:T0,128"
+    },
+    {
+      "source": "Life/Bounded-Grids/herringbone-agar-p14.rle",
+      "reason": "Unsupported rule/topology: B3/S23:T48,48"
+    },
+    {
+      "source": "Life/Bounded-Grids/lightspeed-bubble.rle",
+      "reason": "Unsupported rule/topology: B3/S23:T600,136"
+    },
+    {
+      "source": "Life/Bounded-Grids/pulsars-in-tube.rle",
+      "reason": "Unsupported rule/topology: B3/S23:T0,68"
+    },
+    {
+      "source": "Life/Bounded-Grids/sphere.rle",
+      "reason": "Unsupported rule/topology: LifeHistory:S30"
+    },
+    {
+      "source": "Life/Bounded-Grids/torus-with-shift.rle",
+      "reason": "Unsupported rule/topology: LifeHistory:T30+7,20"
+    },
+    {
+      "source": "Life/Bounded-Grids/torus.rle",
+      "reason": "Unsupported rule/topology: LifeHistory:T31,20"
+    },
+    {
+      "source": "Life/Oscillators/p59-glider-loop.lua",
+      "reason": "Executable generator; not a static cell layout"
+    },
+    {
+      "source": "Life/Signal-Circuitry/h-to-h-collection-26Aug2017.zip/h-to-h-collection-26Aug2017.lua",
+      "reason": "Executable generator; not a static cell layout"
+    },
+    {
+      "source": "Life/Signal-Circuitry/h-to-h-collection-26Aug2017.zip/h-to-h-collection-26Aug2017.rle",
+      "reason": "Unsupported rule/topology: LifeHistory"
+    },
+    {
+      "source": "Life/Syntheses/two-glider-collisions-lh.rle",
+      "reason": "Unsupported rule/topology: LifeHistory"
+    }
+  ]
+}

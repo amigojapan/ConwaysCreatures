@@ -1,16 +1,81 @@
-# ConwaysCreatures
+# Conway's Creatures
 
-ConwaysCreatures is a two-player TCG based on Conway's Game of Life. Players scan creature cards with QR codes, then take turns placing blue and red creatures on the battlefield. When the battle starts, the creatures evolve according to Conway's rules. The battle ends when the timer expires, all cells disappear, or the board reaches a stable configuration. The player with more surviving cells wins.
+A two-player card game using Conway's Game of Life. Scan cards, place blue and red patterns, and start the simulation. Surviving cells determine the winner when time runs out or the board stops changing.
 
-## What is in the game?
-The card collection includes still lifes, spaceships, oscillators, methuselahs, guns, and puffer trains. Each card shows its creature pattern, team colors, category, and QR code.
+There is also a **real-time strategy** mode: both teams deploy reusable cards during the running simulation, spending crystals for each creature's original live cells.
 
-## How to play
-1. Open the [ConwaysCreatures web app](https://amjp.psy-k.org/ConwaysCreatures/qr.html) on your phone.
-2. On a computer, open the [card collection](https://amjp.psy-k.org/ConwaysCreatures/images/cards/). Keep the cards on the computer screen so your phone can scan them.
-3. In the web app, tap the card-scan button in the upper-left area and scan an even number of cards. The cards alternate between the blue and red teams.
-4. Tap the button to place creatures on the field. Tap an empty grid position to place the current creature. Continue until every scanned card has been placed.
-5. Use the rotate button when you want to turn the current creature before placing it.
-6. Tap the Battle Start button below the field. Enter the battle duration in seconds; the default is 60 seconds.
-7. The creatures then evolve automatically according to Conway's Game of Life. The battle ends when the timer expires, the board becomes empty, or the board stays unchanged for several frames.
-8. The final dialog and the status area show the winner and the final number of blue and red cells.
+## Golly collection
+
+The deck contains **193 unique complete layouts** imported from the Golly 5.0 distribution's `Patterns/Life` files and basic pattern library. Cards use the original pattern titles, or readable source filenames when no title is supplied. Fantasy names and the repeated replacement patterns are gone.
+
+The 53 cards with both width and height under 40 cells are in `images/cards/`. The other 140 cards are in `images/cards/giants/` (including patterns with a dimension of exactly 40). Each directory has its own searchable gallery; both groups remain playable.
+
+Every original live-cell coordinate is preserved. Patterns are not cropped, compressed into small grids, split into connected fragments, or replaced by another creature. Rotations, reflections and translations of the same initial layout count as duplicates. One duplicate Rabbits entry was removed.
+
+Some original files contain whole collections or demonstrations. These remain complete cards, with their source shown on the artwork. A collection can contain objects that also appear on individual cards; splitting those files automatically could break multi-part mechanisms. Deduplication compares complete initial layouts, not every object contained within a collection or every future phase of an oscillator.
+
+Ten bounded-grid examples, two LifeHistory annotation layouts and two executable generators are not included as cards: they require topology, rule or script support beyond standard unbounded B3/S23. `ConwaysCreatures/patterns/import-report.json` accounts for every source file and records each exclusion and duplicate. The original files and Golly license are retained in `ConwaysCreatures/patterns/golly/`.
+
+## Playing
+
+1. Open [the game](https://amjp.psy-k.org/ConwaysCreatures/qr.html).
+2. Use **Browse Golly cards** to find a card by its real name. Scan its QR code from another screen, or select **Use in game** in the collection browser.
+3. Add the cards for both teams, then enter the battlefield. Cards alternate between blue and red.
+4. The green preview shows the entire selected creature. Tap to place it, or use **Place** to accept its suggested position. Use **Rotate** before placing.
+5. Drag with one finger to pan; pinch with two fingers to zoom in or out. **+**, **−**, **Fit all**, and mouse-wheel zoom also work. Zoom affects only the view, never the cells or their coordinates. Double-taps on the battlefield are reserved for deployment, without browser zoom. Lifting fingers after a pinch does not deploy a card.
+6. Once all cards are placed, press **Start** and choose a duration. The status shows the actual generation and each team's live-cell count.
+
+The main menu animates a Gosper glider gun initially. Adding a card selects its animated preview; tap a card in your deck to preview it again. Previews follow the same Life rules, restart after 160 generations, and pause when you leave the menu. Preview cells do not affect a battle or its crystals.
+
+### Real-time strategy
+
+1. Add your cards, then choose **Start real-time strategy**. Enter the starting crystals for **each** team (default **30**), then the match duration in seconds (default **60**). Positive fractional seconds are also accepted.
+2. **Double-tap the battlefield → choose Blue or Red → choose a card → tap its deployment location.** Double-taps can be up to **0.9 seconds apart**. The **Deploy** button opens the same picker. The simulation pauses while you choose, rotate, and position your creature, then resumes when you deploy or cancel. **Cancel** or **Escape** closes the picker without spending crystals.
+3. A card costs one crystal per original live cell, regardless of its bounding box. For example, a glider costs 5 crystals and this Golly phase of the Gosper gun costs 32. Unaffordable cards are disabled. Selecting or rotating a card does not spend crystals; placing it does.
+4. Both teams can reuse any scanned card as often as their own balance allows. There is no turn order. New live cells replace existing live cells and their team color; empty spaces in the new pattern leave the battlefield unchanged. Overlapping cells still cost crystals.
+5. Use **Rotate** and **Fit all** to inspect the green preview, then tap to deploy or press **Place**. Dragging pans without deploying. **Deploy** lets you replace a pending selection or cancel it.
+6. Crystals do not regenerate, and deaths do not refund them. The countdown pauses throughout card selection and placement. When time expires, the team with more live cells wins; equal counts draw. A team is eliminated early only if it has no live cells and cannot afford any owned card. If both teams are eliminated, the match is a draw. Empty or stable boards otherwise continue until the time limit. Press **End** to score immediately, or **Menu** to leave. A new game resets the board, timer, and both balances.
+
+### Real-time with separate decks
+
+Use the new **Start real-time — separate decks** button to restrict each team to its own scanned cards. Players take turns adding cards: the first successful scan belongs to Blue, the second to Red, then Blue, Red, and so on. The Add card button and menu show whose turn is next, and each card is labeled with its owner. Invalid scans, cancelled scans, and camera failures do not advance the turn. Cards added through the collection browser follow the same assignment order.
+
+Scan at least one card for each team before starting this mode. Each team's deployment picker shows only its own cards, which remain reusable while affordable. If both players scan the same pattern, both can use it. Elimination checks affordability using that team's cards only. Choose enough starting crystals to afford your cards; the Gosper gun costs 32, above the default 30.
+
+This variation uses the same crystal and duration prompts, paused selection and placement, and end conditions as real-time strategy. Scanning alternates; deployment has no turn order. The original **Start real-time strategy** button still shares all scanned cards between both teams. Card ownership is retained when switching modes during the current page session.
+
+The simulation uses a sparse, unbounded board: cells can move beyond the screen without disappearing at an artificial edge. Both colors follow B3/S23, counting neighbors of either color. Newborn cells take the majority color of their three neighbors. Collisions can destroy guns and other creatures.
+
+Large layouts take longer per generation. A high-period gun may need hundreds of generations before an emission; the generation counter, rather than elapsed seconds, indicates its progress. Some previews contain hundreds of thousands of cells, so individual cells merge visually at card scale; zoom in the game to inspect the unchanged layout.
+
+## Rebuilding
+
+Import a Golly 5.0 distribution (the directory containing `Patterns/`, `Scripts/`, and `License.html`):
+
+```sh
+python3 tools/import_golly.py /path/to/golly-5.0
+python3 tools/build_cards.py --clean
+```
+
+`catalog.json` stores compact RLE, real names, dimensions, source hashes and deduplication fingerprints. `cards.json` maps the canonical card IDs. Original `.rle`, `.rle.gz`, and Life 1.05 files are parsed without cell-count or dimension limits; scripts are not executed. Source collections are never automatically split.
+
+The card builder requires `pycairo` and `qrcode`. It generates PNGs, the searchable card index, both standalone JS exports, and the complete game embedded in `qr.html`. `--clean` removes obsolete card PNGs. Use `--data-only` to rebuild the page without artwork. No PDF is generated by default; `--pdf` is optional.
+
+Checks:
+
+```sh
+node tests/life.test.cjs
+python3 -m unittest discover -s tests -p 'test_*.py'
+```
+
+Tests cover all Life neighborhoods, original-source fidelity, duplicate detection, PNG geometry for small patterns, full decoding of all 1,307,457 source cells, placement of a 210,515 × 183,739 layout, rotation, repeated gun emissions, and matching embedded game data. The artwork tests use Pillow.
+
+Game tests also cover real-time team selection and touch deployment, slower double-taps, pausing throughout selection and placement, resuming after deployment or cancellation, crystal spending and affordability, overlap replacement, reusable cards, continued evolution on empty or stable boards, and independent animated previews.
+
+## Updating the website
+
+Upload `ConwaysCreatures/qr.html` and `ConwaysCreatures/images/` to the site's `ConwaysCreatures/` directory. Replace the old card PNGs with the new set; merging alone leaves obsolete fantasy cards on the server. Include `images/cards/index.html` for the searchable collection. No PDF update is needed.
+
+`qr.html` embeds its matching engine, game code and pattern data. There is no separate pattern-script download to become stale. After uploading, reload the page using a fresh query string if your browser has cached an earlier version.
+
+Source format reference: [Golly file formats](https://golly.sourceforge.io/Help/formats.html).
